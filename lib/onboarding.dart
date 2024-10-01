@@ -14,7 +14,7 @@ class HalamanUtama extends StatelessWidget {
               children: [
                 Container(
                   width: 360,
-                  height: 300,
+                  height: 350,
                   decoration: BoxDecoration(
                     color: primaryColor,
                     boxShadow: [
@@ -34,7 +34,7 @@ class HalamanUtama extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 200,
+              top: 270,
               left: 110,
               child: Container(
                 width: 140,
@@ -76,9 +76,18 @@ class HalamanUtama extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 15),
                     Text(
-                      'Memperkuat Pertahanan dengan               Informasi Teritorial yang akurat',
+                      'Memperkuat Pertahanan dengan',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Informasi Teritorial yang akurat',
                       style: TextStyle(
                         fontSize: 16,
                         color: const Color.fromARGB(255, 0, 0, 0),

@@ -21,7 +21,7 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20), 
+            SizedBox(height: 35), 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -43,7 +43,7 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Container(
               width: 350,
               decoration: BoxDecoration(

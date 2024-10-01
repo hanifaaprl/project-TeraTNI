@@ -15,6 +15,78 @@ class _MapsPageState extends State<MapsPage> {
     'Papua Barat',
     'Papua Selatan'
   ]; // Daftar item dropdown
+  
+  List<Marker> markers = []; // Variabel untuk menyimpan marker sesuai tombol yang dipilih
+
+  // Daftar marker untuk tiap jenis
+  List<Marker> poskoMiliterMarkers = [
+    Marker(
+      width: 80.0,
+      height: 80.0,
+      point: LatLng(-3.0, 135.0), // Koordinat Posko Militer
+      builder: (ctx) => Icon(
+        Icons.location_on,
+        color: Colors.red,
+        size: 40.0,
+      ),
+    ),
+    Marker(
+      width: 80.0,
+      height: 80.0,
+      point: LatLng(-3.1, 135.1), // Koordinat tambahan
+      builder: (ctx) => Icon(
+        Icons.location_on,
+        color: Colors.red,
+        size: 40.0,
+      ),
+    ),
+  ];
+
+  List<Marker> fasilitasUmumMarkers = [
+    Marker(
+      width: 80.0,
+      height: 80.0,
+      point: LatLng(-3.2, 135.2), // Koordinat Fasilitas Umum
+      builder: (ctx) => Icon(
+        Icons.location_on,
+        color: Colors.green,
+        size: 40.0,
+      ),
+    ),
+    Marker(
+      width: 80.0,
+      height: 80.0,
+      point: LatLng(-3.3, 135.3), // Koordinat tambahan
+      builder: (ctx) => Icon(
+        Icons.location_on,
+        color: Colors.green,
+        size: 40.0,
+      ),
+    ),
+  ];
+
+  List<Marker> komplekMiliterMarkers = [
+    Marker(
+      width: 80.0,
+      height: 80.0,
+      point: LatLng(-3.4, 135.4), // Koordinat Komplek Militer
+      builder: (ctx) => Icon(
+        Icons.location_on,
+        color: Colors.blue,
+        size: 40.0,
+      ),
+    ),
+    Marker(
+      width: 80.0,
+      height: 80.0,
+      point: LatLng(-3.5, 135.5), // Koordinat tambahan
+      builder: (ctx) => Icon(
+        Icons.location_on,
+        color: Colors.blue,
+        size: 40.0,
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +97,8 @@ class _MapsPageState extends State<MapsPage> {
           // Peta
           FlutterMap(
             options: MapOptions(
-              center: LatLng(-3.0, 135.0), // Koordinat Papua Tengah
-              zoom: 10.0, // Level zoom
+              center: LatLng(-4.0, 135.2), // Koordinat Papua Tengah
+              zoom: 5.0, // Level zoom
             ),
             children: [
               TileLayer(
@@ -34,20 +106,7 @@ class _MapsPageState extends State<MapsPage> {
                 subdomains: ['a', 'b', 'c'],
               ),
               MarkerLayer(
-                markers: [
-                  Marker(
-                    width: 80.0,
-                    height: 80.0,
-                    point: LatLng(-3.0, 135.0), // Koordinat marker
-                    builder: (ctx) => Container(
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.black,
-                        size: 40.0,
-                      ),
-                    ),
-                  ),
-                ],
+                markers: markers, // Marker yang ditampilkan
               ),
             ],
           ),
@@ -157,11 +216,13 @@ class _MapsPageState extends State<MapsPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Menentukan ukuran tombol yang konsisten
+                // Tombol Posko Militer
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Aksi ketika Button 1 ditekan
+                      setState(() {
+                        markers = poskoMiliterMarkers; // Tampilkan marker Posko Militer
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15), // Padding tombol
@@ -181,10 +242,13 @@ class _MapsPageState extends State<MapsPage> {
                   ),
                 ),
                 SizedBox(width: 10), // Spasi antar tombol
+                // Tombol Fasilitas Umum
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Aksi ketika Button 2 ditekan
+                      setState(() {
+                        markers = fasilitasUmumMarkers; // Tampilkan marker Fasilitas Umum
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15), // Padding tombol
@@ -204,10 +268,13 @@ class _MapsPageState extends State<MapsPage> {
                   ),
                 ),
                 SizedBox(width: 10), // Spasi antar tombol
+                // Tombol Komplek Militer
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Aksi ketika Button 3 ditekan
+                      setState(() {
+                        markers = komplekMiliterMarkers; // Tampilkan marker Komplek Militer
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15), // Padding tombol

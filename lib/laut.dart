@@ -1,43 +1,20 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
 
-class PersonilAktif extends StatefulWidget {
+class KekuatanLaut extends StatefulWidget {
   @override
-  _PersonilAktifState createState() => _PersonilAktifState();
+  _KekuatanLautState createState() => _KekuatanLautState();
 }
 
-class _PersonilAktifState extends State<PersonilAktif> {
-  String _selectedValue = 'Papua';
+class _KekuatanLautState extends State<KekuatanLaut> {
+  String? _selectedValue; 
 
-  // Daftar teks untuk setiap container
-  final List<String> Perwira = [
-    'LetJen : 2',
-    'MayJen : 8',
-    'BrigJen : 8',
-    'Kolonel : 8',
-    'Letkol : 8',
-    'Mayor : 8',
-    'Kapten : 8',
-    'LetTu : 8',
-    'LetDa : 8'
-  ];
-
-  final List<String> Bantara = [
-    'PelTu : 100',
-    'PelDa : 100',
-    'Serma : 100',
-    'Serka : 100',
-    'Sertu : 100',
-    'Serda : 100'
-  ];
-
-  final List<String> Tamtama = [
-    'KopKa : 1000',
-    'KopTu : 1000',
-    'KopDa : 1000',
-    'PraKa : 1000',
-    'PraTu : 1000',
-    'PraDa : 1000'
+  final List<String> containerTexts = [
+    'Fregat : 1000',
+    'Korvet : 1000',
+    'Kapal Selam : 1000',
+    'Kapal Patroli : 1000',
+    'Kapal Ranjau : 1000'
   ];
 
   @override
@@ -66,7 +43,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                 ),
                 SizedBox(width: 20),
                 Text(
-                  'Personil Aktif',
+                  'Kekuatan Laut',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -77,7 +54,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
             ),
           ),
 
-          // Konten yang dapat di-scroll
+          // Konten utama
           Positioned.fill(
             top: 100, // Mengatur posisi konten di bawah header
             child: SingleChildScrollView(
@@ -85,7 +62,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                 children: [
                   // Dropdown
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20), 
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     height: 35,
                     width: 300,
                     decoration: BoxDecoration(
@@ -129,26 +106,20 @@ class _PersonilAktifState extends State<PersonilAktif> {
                           Icons.keyboard_arrow_down_rounded,
                           color: Colors.white,
                         ),
-                        isDense: true, 
+                        isDense: true,
                       ),
                     ),
                   ),
+                  
+                  // Gambar
                   Center(
-                    child: Builder(
-                      builder: (context) {
-                        try {
-                          return Image.asset(
-                            'assets/images/personil.png',
-                            height: 300, // Atur tinggi gambar
-                            width: 300, // Atur lebar gambar
-                          );
-                        } catch (e) {
-                          return Text('Gambar tidak ditemukan.');
-                        }
-                      },
+                      child: Image.asset(
+                        'assets/images/laut.png',
+                        height: 300, // Atur tinggi gambar
+                        width: 300, // Atur lebar gambar
+                      ),
                     ),
-                  ),
-                  Text(
+                    Text(
                     'Perwira $_selectedValue',
                     style: TextStyle(
                       fontSize: 18,
@@ -160,7 +131,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                   Wrap(
                     spacing: 10, // Jarak horizontal antar container
                     runSpacing: 10, // Jarak vertikal antar container
-                    children: List.generate(Perwira.length, (index) {
+                    children: List.generate(containerTexts.length, (index) {
                       return Container(
                         height: 50,
                         width: 150,
@@ -178,89 +149,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                         ),
                         child: Center(
                           child: Text(
-                            Perwira[index],
-                            style: TextStyle(
-                              color: Colors.white, // Warna teks
-                              fontSize: 14, // Ukuran teks
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Bantara $_selectedValue',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Wrap(
-                    spacing: 10, // Jarak horizontal antar container
-                    runSpacing: 10, // Jarak vertikal antar container
-                    children: List.generate(Bantara.length, (index) {
-                      return Container(
-                        height: 50,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            Bantara[index],
-                            style: TextStyle(
-                              color: Colors.white, // Warna teks
-                              fontSize: 14, // Ukuran teks
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Tamtama $_selectedValue',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Wrap(
-                    spacing: 10, // Jarak horizontal antar container
-                    runSpacing: 10, // Jarak vertikal antar container
-                    children: List.generate(Tamtama.length, (index) {
-                      return Container(
-                        height: 50,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            Tamtama[index],
+                            containerTexts[index],
                             style: TextStyle(
                               color: Colors.white, // Warna teks
                               fontSize: 14, // Ukuran teks

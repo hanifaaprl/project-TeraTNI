@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:projek1/laut.dart';
 import 'package:projek1/notif.dart';
 import 'package:projek1/personil.dart';
+import 'sosial.dart';
+import 'demografis.dart';
+import 'geografis.dart';
+import 'lingkungan.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -123,8 +128,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  PersonilAktif()), 
+                              builder: (context) => PersonilAktif()),
                         );
                       },
                       child: Container(
@@ -206,31 +210,42 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 172,
-                      height: 210,
-                      decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: Offset(2, 2),
-                          )
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(9),
-                        child: Text(
-                          'Kekuatan Laut',
-                          style: TextStyle(
-                            color: Colors.white, // Warna teks
-                            fontSize: 13, // Ukuran teks
-                            fontWeight: FontWeight.bold, // Ketebalan teks
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                KekuatanLaut(), // Ganti dengan halaman tujuan
                           ),
-                          textAlign: TextAlign.center, // Rata tengah teks
+                        );
+                      },
+                      child: Container(
+                        width: 172,
+                        height: 210,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(9),
+                          child: Text(
+                            'Kekuatan Laut',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
@@ -239,15 +254,55 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 10),
-                        _buildSmallContainer('Sosial Ekonomi'),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SosialEkonomi()), // Halaman tujuan
+                            );
+                          },
+                          child: _buildSmallContainer('Sosial Ekonomi'),
+                        ),
                         SizedBox(height: 10),
-                        _buildSmallContainer('Demografis'),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Demografis()), // Halaman tujuan
+                            );
+                          },
+                          child: _buildSmallContainer('Demografis'),
+                        ),
                         SizedBox(height: 10),
-                        _buildSmallContainer('Geografis'),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Geografis()), // Halaman tujuan
+                            );
+                          },
+                          child: _buildSmallContainer('Geografis'),
+                        ),
                         SizedBox(height: 10),
-                        _buildSmallContainer('Lingkungan'),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Lingkungan()), // Halaman tujuan
+                            );
+                          },
+                          child: _buildSmallContainer('Lingkungan'),
+                        ),
                       ],
-                    ),
+                    )
                   ],
                 ),
                 SizedBox(height: 20), // Tambahan jarak
@@ -258,8 +313,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       FlutterMap(
                         options: MapOptions(
-                          center: LatLng(-3.0, 135.0),
-                          zoom: 10.0, // Level zoom
+                          center: LatLng(-2.0, 135.2),
+                          zoom: 5.0, // Level zoom
                         ),
                         children: [
                           TileLayer(
