@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'dart:io'; // Untuk handling file
@@ -45,6 +46,14 @@ class _FormGeografisState extends State<FormGeografis> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+    final backgroundColor = isDarkMode ? Colors.black : Colors.white;
+    final cardColor = isDarkMode ? Colors.grey[700] : Colors.white;
+    final textColor = isDarkMode ? Colors.white : Colors.black87;
+    final containerColor = isDarkMode ? Colors.grey[800] : Colors.grey[200];
+    final shadowColor = isDarkMode ? Colors.grey[700]! : Colors.grey.withOpacity(0.3);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Stack(
@@ -58,11 +67,10 @@ class _FormGeografisState extends State<FormGeografis> {
                   Container(
                     padding: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
+                      color: secondaryColor,
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
                           offset: Offset(0, 3),
@@ -126,7 +134,7 @@ class _FormGeografisState extends State<FormGeografis> {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 20,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -138,7 +146,7 @@ class _FormGeografisState extends State<FormGeografis> {
                   style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -164,7 +172,7 @@ class _FormGeografisState extends State<FormGeografis> {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
+                color: secondaryColor.withOpacity(0.3),
                 spreadRadius: 1,
                 blurRadius: 35,
                 offset: Offset(0, 3),
@@ -265,7 +273,7 @@ class _FormGeografisState extends State<FormGeografis> {
               ListTile(
                 leading: Icon(Icons.camera_alt),
                 title: Text('Kamera'),
-                onTap: () {
+                onTap: () { 
                   Navigator.pop(context);
                   _pickImage(ImageSource.camera);
                 },

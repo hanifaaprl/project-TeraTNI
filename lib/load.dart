@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:projek1/dashboard.dart'; 
+import 'package:projek1/dashboard.dart';
+import 'package:adaptive_theme/adaptive_theme.dart'; // Tambahkan package adaptive_theme
 import 'colors.dart';
 
 class HalamanVerifikasiBerhasil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan tema saat ini
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -19,7 +25,7 @@ class HalamanVerifikasiBerhasil extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
             SizedBox(height: 20),
@@ -28,7 +34,7 @@ class HalamanVerifikasiBerhasil extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black87,
+                color: isDarkMode ? Colors.white70 : Colors.black87,
               ),
             ),
             Text(
@@ -36,7 +42,7 @@ class HalamanVerifikasiBerhasil extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black87,
+                color: isDarkMode ? Colors.white70 : Colors.black87,
               ),
             ),
             SizedBox(height: 30),
@@ -50,7 +56,7 @@ class HalamanVerifikasiBerhasil extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor, 
+                backgroundColor: primaryColor, // Tetap menggunakan warna utama
                 padding: EdgeInsets.symmetric(horizontal: 120, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

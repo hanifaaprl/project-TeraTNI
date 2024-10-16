@@ -9,6 +9,7 @@ import 'sosial.dart';
 import 'demografis.dart';
 import 'geografis.dart';
 import 'lingkungan.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,7 +21,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+
+    var data = [
+      ChartData('Tam', 3000),
+      ChartData('Bin', 900),
+      ChartData('Per', 200),
+    ];
+    var data2 = [
+      ChartData2('Angkatan Laut', 40, secondaryColor),
+      ChartData2('Marinir', 30, Colors.green),
+      ChartData2('Kapal Selam', 15, Colors.red),
+      ChartData2('Helikopter', 15, Colors.orange),
+    ];
+
     return Scaffold(
+      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -135,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                         width: 172,
                         height: 250,
                         decoration: BoxDecoration(
-                          color: primaryColor,
+                          color: secondaryColor,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
@@ -148,14 +165,38 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(9),
-                          child: Text(
-                            'Personil Aktif',
-                            style: TextStyle(
-                              color: Colors.white, // Warna teks
-                              fontSize: 13, // Ukuran teks
-                              fontWeight: FontWeight.bold, // Ketebalan teks
-                            ),
-                            textAlign: TextAlign.center, // Rata tengah teks
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, // Posisikan chart di tengah
+                            children: [
+                              Text(
+                                'Personil Aktif',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                  height:
+                                      10), // Memberikan jarak antara teks dan chart
+                              Expanded(
+                                child: SfCartesianChart(
+                                  primaryXAxis: CategoryAxis(),
+                                  series: <ChartSeries>[
+                                    ColumnSeries<ChartData, String>(
+                                      dataSource: data,
+                                      xValueMapper: (ChartData data, _) =>
+                                          data.month,
+                                      yValueMapper: (ChartData data, _) =>
+                                          data.value,
+                                      color: primaryColor,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -224,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                         width: 172,
                         height: 210,
                         decoration: BoxDecoration(
-                          color: primaryColor,
+                          color: secondaryColor,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(

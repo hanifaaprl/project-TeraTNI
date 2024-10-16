@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projek1/daftar.dart'; 
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'daftar.dart';
 import 'otp.dart';
 import 'colors.dart';
 
@@ -13,153 +14,184 @@ class _HalamanMasukState extends State<HalamanMasuk> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 30), 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  child: Image.asset(
-                    'assets/images/logoo.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'TeraTNI',
-                  style: TextStyle(
-                    fontSize: 27,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/t5.jpg'), // Gambar background
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+              ),
             ),
-            SizedBox(height: 30),
-            Container(
-              width: 350,
+          ),
+          SingleChildScrollView(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: screenHeight * 0.25), // Memberi jarak dari atas
+                  Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            child: Image.asset(
+                              'assets/images/logoo.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Column(
+                            children: [
+                              Text(
+                                'TeraTNI',
+                                style: TextStyle(
+                                  fontSize: 27,
+                                  fontWeight: FontWeight.bold,
+                                  color: isDarkMode ? Colors.white : Colors.black,
+                                ),
+                              ),
+                              Text(
+                            'Hello, welcome!',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: isDarkMode ? Colors.white : Colors.black,
+                            ),
+                          ),
+                            ],
+                          ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter, // Meletakkan kontainer di bagian bawah
+            child: Container(
+              width: screenWidth, // Lebar sesuai layar
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+                color: isDarkMode ? Colors.grey[800] : Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: Offset(2, 2),
-                  )
+                  ),
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: Text(
-                        'MASUK',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      'MASUK',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode ? Colors.white : Colors.black,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    _buildTextField('Email'),
-                    SizedBox(height: 10),
-                    _buildPasswordField('Password', _obscurePassword, (bool value) {
-                      setState(() {
-                        _obscurePassword = value;
-                      });
-                    }),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Aksi saat menekan "Lupa password?"
-                          },
-                          child: Text(
-                            'Lupa password?',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HalamanOTP()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: primaryColor,
-                        padding: EdgeInsets.symmetric(horizontal: 110, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        'Masuk',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Belum memiliki akun? ',
+                  ),
+                  SizedBox(height: 30),
+                  _buildTextField('Username', isDarkMode),
+                  SizedBox(height: 10),
+                  _buildPasswordField('Password', _obscurePassword, (bool value) {
+                    setState(() {
+                      _obscurePassword = value;
+                    });
+                  }, isDarkMode),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          'Lupa password?',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.black87,
+                            color: Colors.blue,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HalamanOTP()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: primaryColor,
+                      padding: EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      'Masuk',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Belum memiliki akun? ',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isDarkMode ? Colors.white70 : Colors.black87,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => HalamanDaftar()),
+                              MaterialPageRoute(builder: (context) => HalamanDaftar()), 
                             );
                           },
-                          child: Text(
-                            'Daftar',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.blue,
-                            ),
+                        child: Text(
+                          'Daftar',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.blue,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-  Widget _buildTextField(String labelText) {
+
+  Widget _buildTextField(String labelText, bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -168,26 +200,30 @@ class _HalamanMasukState extends State<HalamanMasuk> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
           ),
         ),
         SizedBox(height: 6),
         Container(
           height: 35,
           child: TextField(
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: 14, color: isDarkMode ? Colors.white : Colors.black),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: isDarkMode ? Colors.white : Colors.black),
               ),
+              filled: true,
+              fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
             ),
           ),
         ),
       ],
     );
   }
-  Widget _buildPasswordField(String labelText, bool obscureText, Function(bool) toggleVisibility) {
+
+  Widget _buildPasswordField(String labelText, bool obscureText, Function(bool) toggleVisibility, bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -196,7 +232,7 @@ class _HalamanMasukState extends State<HalamanMasuk> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
           ),
         ),
         SizedBox(height: 6),
@@ -204,16 +240,20 @@ class _HalamanMasukState extends State<HalamanMasuk> {
           height: 35,
           child: TextField(
             obscureText: obscureText,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: 14, color: isDarkMode ? Colors.white : Colors.black),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: isDarkMode ? Colors.white : Colors.black),
               ),
+              filled: true,
+              fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
               suffixIcon: IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,
                   size: 20,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
                 onPressed: () => toggleVisibility(!obscureText),
               ),

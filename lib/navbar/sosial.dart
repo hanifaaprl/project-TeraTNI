@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
-import 'formsos.dart'; // Pastikan mengimpor halaman FormSosialEkonomi
-import 'editsos.dart'; // Pastikan mengimpor halaman EditSosialEkonomi
+import 'package:projek1/navbar/quick.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'formsos.dart';
+import 'editsos.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class SosialEkonomi extends StatefulWidget {
   @override
@@ -10,11 +13,38 @@ class SosialEkonomi extends StatefulWidget {
 
 class _SosialEkonomiState extends State<SosialEkonomi> {
   String? selectedValue;
-  List<String> dropdownItems = ['Papua', 'Maluku', 'Ternate'];
+  List<String> dropdownItems = ['Papua Barat', 'Papua Tengah', 'Papua Selatan'];
 
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+
+    final List<ChartData> data1 = [
+      ChartData('Jan', 35),
+      ChartData('Feb', 40),
+      ChartData('Mar', 55),
+      ChartData('Apr', 50),
+      ChartData('May', 60),
+      ChartData('Jun', 55),
+    ];
+
+    final List<ChartData> data2 = [
+      ChartData('Jan', 20),
+      ChartData('Feb', 30),
+      ChartData('Mar', 25),
+      ChartData('Apr', 35),
+      ChartData('May', 32),
+      ChartData('Jun', 20),
+    ];
+    final List<ChartData2> data = [
+      ChartData2('Q1', 30),
+      ChartData2('Q2', 50),
+      ChartData2('Q3', 40),
+      ChartData2('Q4', 70),
+    ];
     return Scaffold(
+      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: Stack(
@@ -24,7 +54,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                 // Header
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  color: Colors.white,
+                  //color: isDarkMode ? Colors.black : Colors.white,
+                  color: backgroundColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -32,7 +63,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 24,
-                          color: Colors.black,
+                          color: isDarkMode ? Colors.white : Colors.black87,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -44,7 +75,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: isDarkMode ? Colors.white : Colors.black87,
                         ),
                       ),
                     ],
@@ -63,7 +94,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                           children: [
                             // Dropdown di kiri
                             Container(
-                              width: 120,
+                              width: 130,
                               height: 30,
                               padding: EdgeInsets.symmetric(horizontal: 12),
                               decoration: BoxDecoration(
@@ -115,7 +146,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                               child: Container(
                                 height: 30,
                                 decoration: BoxDecoration(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
@@ -129,7 +160,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                 child: TextField(
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                   decoration: InputDecoration(
                                     suffixIcon: Icon(
@@ -169,7 +200,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                 width: 179,
                                 height: 230,
                                 decoration: BoxDecoration(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
@@ -182,14 +213,61 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(9),
-                                  child: Text(
-                                    'Partai Politik Dominan',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Partai Politik Dominan',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              10), // Memberikan jarak antara teks dan grafik
+                                      Expanded(
+                                        child: SfCartesianChart(
+                                          primaryXAxis: CategoryAxis(),
+                                          primaryYAxis: NumericAxis(),
+                                          series: <ChartSeries>[
+                                            AreaSeries<ChartData, String>(
+                                              name: 'Partai A',
+                                              dataSource: data1,
+                                              xValueMapper:
+                                                  (ChartData sales, _) =>
+                                                      sales.year,
+                                              yValueMapper:
+                                                  (ChartData sales, _) =>
+                                                      sales.value,
+                                              color: Colors.blueGrey.withOpacity(
+                                                  0.5), // Warna area Partai A
+                                              borderColor: Colors
+                                                  .blueGrey, // Warna batas area Partai A
+                                              borderWidth: 2,
+                                            ),
+                                            AreaSeries<ChartData, String>(
+                                              name: 'Partai B',
+                                              dataSource: data2,
+                                              xValueMapper:
+                                                  (ChartData sales, _) =>
+                                                      sales.year,
+                                              yValueMapper:
+                                                  (ChartData sales, _) =>
+                                                      sales.value,
+                                              color: primaryColor
+                                                  .withOpacity(
+                                                      0.5), // Warna area Partai A
+                                              borderColor: secondaryColor, // Warna batas area Partai A
+                                              borderWidth: 2,
+                                            ),
+                                          ],
+                                          tooltipBehavior:
+                                              TooltipBehavior(enable: true),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -236,6 +314,36 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                           ],
                         ),
                         SizedBox(height: 20),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => QuickCount()),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: primaryColor,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 120, vertical: 15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                'Quick Count ',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
 
                         // Container besar tambahan
                         Center(
@@ -243,7 +351,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                             width: 250,
                             height: 300,
                             decoration: BoxDecoration(
-                              color: primaryColor,
+                              color: secondaryColor,
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
@@ -274,7 +382,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                             width: 250,
                             height: 300,
                             decoration: BoxDecoration(
-                              color: primaryColor,
+                              color:
+                                  secondaryColor, // Sesuaikan dengan primaryColor kamu
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
@@ -285,17 +394,46 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                 ),
                               ],
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(9.0),
-                              child: Text(
-                                'Penduduk',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(9.0),
+                                  child: Text(
+                                    'Penduduk',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
+
+                                // Radial Bar Chart (Berdasarkan Usia Penduduk)
+                                Expanded(
+                                  child: SfCircularChart(
+                                    legend: Legend(
+                                      isVisible: true,
+                                      textStyle: TextStyle(color: Colors.white),
+                                    ),
+                                    series: <CircularSeries>[
+                                      RadialBarSeries<ChartData3, String>(
+                                        dataSource: getUsiaChartData(),
+                                        xValueMapper: (ChartData3 data, _) =>
+                                            data.label,
+                                        yValueMapper: (ChartData3 data, _) =>
+                                            data.value,
+                                        dataLabelSettings:
+                                            DataLabelSettings(isVisible: true),
+                                        // Besarkan radius dan innerRadius untuk bar chart ini
+                                        radius: '90%',
+                                        innerRadius: '10%',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -317,7 +455,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                      color: secondaryColor,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
@@ -334,7 +472,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: secondaryColor,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
@@ -386,4 +524,33 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
       ),
     );
   }
+}
+
+class ChartData {
+  final String year;
+  final double value;
+
+  ChartData(this.year, this.value);
+}
+
+class ChartData2 {
+  final String quarter;
+  final double value;
+
+  ChartData2(this.quarter, this.value);
+}
+
+// Data untuk Radial Bar Chart (berdasarkan usia penduduk)
+List<ChartData3> getUsiaChartData() {
+  return [
+    ChartData3('Tidak Terdaftar', 25),
+    ChartData3('Terdaftar', 60),
+  ];
+}
+
+// Model data untuk chart
+class ChartData3 {
+  ChartData3(this.label, this.value);
+  final String label;
+  final double value;
 }

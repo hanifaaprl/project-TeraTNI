@@ -1,133 +1,162 @@
 import 'package:flutter/material.dart';
-import 'daftar.dart';
-import 'colors.dart';
+import 'package:projek1/masuk.dart';  // Halaman masuk
+import 'daftar.dart';  // Halaman daftar
+import 'colors.dart';  // Warna yang digunakan
 
-class HalamanUtama extends StatelessWidget {
+class HalamanUtama extends StatefulWidget {
+  @override
+  _HalamanUtamaState createState() => _HalamanUtamaState();
+}
+
+class _HalamanUtamaState extends State<HalamanUtama> {
+  bool isNavigated = false; // To avoid multiple navigations
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/t5.jpg', // Path to your image
+              fit: BoxFit.cover, // Make the image cover the whole background
+            ),
+          ),
+          // Center Container with logo and text
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 360,
-                  height: 350,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 15,
-                        offset: Offset(0, 5),
-                      ),
-                    ],
-                    borderRadius: BorderRadiusDirectional.only(
-                      bottomStart: Radius.circular(150),
-                      bottomEnd: Radius.circular(150),
-                    ),
+                // Logo Image
+                Image.asset(
+                  'assets/images/logoo.png', // Path to your logo image
+                  width: 50, // Set your desired width
+                  height: 50, // Set your desired height
+                ),
+                SizedBox(height: 0), // Space between logo and text
+                Text(
+                  'TeraTNI', // Replace with your app name
+                  style: TextStyle(
+                    fontSize: 29, // Font size for app name
+                    fontWeight: FontWeight.bold, // Bold text
+                    color: Colors.grey, // Text color
                   ),
                 ),
               ],
             ),
-            Positioned(
-              top: 270,
-              left: 110,
-              child: Container(
-                width: 140,
-                height: 140,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(90),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 15,
-                      offset: Offset(0, 5),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/logoo.png',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 160),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'TeraTNI',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Memperkuat Pertahanan dengan',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Informasi Teritorial yang akurat',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 30), 
-                child: ElevatedButton(
-                  onPressed: () {
+          ),
+          // Swipeable Container
+          DraggableScrollableSheet(
+            initialChildSize: 0.1, // Start size of the container
+            minChildSize: 0.1,     // Minimum size (collapsed)
+            maxChildSize: 0.2,     // Maximum size (expanded)
+            builder: (BuildContext context, ScrollController scrollController) {
+              return NotificationListener<DraggableScrollableNotification>(
+                onNotification: (notification) {
+                  // Check if the extent is greater than a certain value (e.g., 20% of maxExtent)
+                  if (notification.extent >= 0.2 && !isNavigated) {
+                    // Set a flag to prevent multiple navigations
+                    setState(() {
+                      isNavigated = true;
+                    });
+
+                    // Navigate to the login page
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HalamanDaftar()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: primaryColor, 
-                    padding: EdgeInsets.symmetric(horizontal: 110, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15), // Sudut tombol
+                      MaterialPageRoute(builder: (context) => HalamanMasuk()),
+                    ).then((value) {
+                      // Reset the flag when the user comes back
+                      setState(() {
+                        isNavigated = false;
+                      });
+                    });
+                  }
+                  return true;
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        spreadRadius: 5,
+                        blurRadius: 10,
+                      ),
+                    ],
                   ),
-                  child: Text(
-                    'Daftar Sekarang',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: ListView(
+                    controller: scrollController,
+                    children: [
+                      // Icon for swipe up
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Icon(
+                            Icons.keyboard_double_arrow_up_sharp, // Swipe up icon
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
+              );
+            },
+          ),
+          // Text outside the container
+          Positioned(
+            top: 550, // Position the text 50 pixels from the top
+            left: 20, // Position the text 20 pixels from the left
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Swipe Up', // Your text here
+                      style: TextStyle(
+                        fontSize: 24, // Font size
+                        fontWeight: FontWeight.bold, // Bold text
+                        color: Colors.black54, // Text color
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      'to', // Your text here
+                      style: TextStyle(
+                        fontSize: 24, // Font size
+                        //fontWeight: FontWeight.bold, // Bold text
+                        color: Colors.white60, // Text color
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  'to Explore the', // Your text here
+                  style: TextStyle(
+                    fontSize: 24, // Font size
+                    //fontWeight: FontWeight.bold, // Bold text
+                    color: Colors.white60, // Text color
+                  ),
+                ),
+                Text(
+                  'Teritorial', // Your text here
+                  style: TextStyle(
+                    fontSize: 24, // Font size
+                    //fontWeight: FontWeight.bold, // Bold text
+                    color: Colors.white60, // Text color
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

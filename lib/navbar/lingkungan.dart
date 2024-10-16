@@ -79,7 +79,7 @@ class _LingkunganState extends State<Lingkungan> {
                 // Header
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  color: Colors.white,
+                  color: backgroundColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -87,7 +87,7 @@ class _LingkunganState extends State<Lingkungan> {
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 24,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -99,7 +99,7 @@ class _LingkunganState extends State<Lingkungan> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -172,7 +172,7 @@ class _LingkunganState extends State<Lingkungan> {
                               child: Container(
                                 height: 30,
                                 decoration: BoxDecoration(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
@@ -216,7 +216,7 @@ class _LingkunganState extends State<Lingkungan> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -236,7 +236,7 @@ class _LingkunganState extends State<Lingkungan> {
                                     containerTitles[index],
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.black,
+                                      color: Colors.white70,
                                     ),
                                   ),
                                   SizedBox(height: 5),
@@ -407,7 +407,7 @@ class _LingkunganState extends State<Lingkungan> {
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                      color: secondaryColor,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
@@ -423,7 +423,7 @@ class _LingkunganState extends State<Lingkungan> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: secondaryColor,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(

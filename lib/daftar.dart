@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:projek1/otp.dart';
-import 'masuk.dart'; 
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'otp.dart';
+import 'masuk.dart';
 import 'colors.dart';
 
 class HalamanDaftar extends StatefulWidget {
@@ -9,151 +10,211 @@ class HalamanDaftar extends StatefulWidget {
 }
 
 class _HalamanDaftarState extends State<HalamanDaftar> {
-  bool _obscurePassword = true; 
-  bool _obscureConfirmPassword = true; 
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 35), 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  child: Image.asset(
-                    'assets/images/logoo.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'TeraTNI',
-                  style: TextStyle(
-                    fontSize: 27,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            Container(
-              width: 350,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: Offset(2, 2),
-                  )
-                ],
+      body: Stack(
+        children: [
+          // Gambar background
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    'assets/images/t5.jpg'), // Ganti dengan path gambar background Anda
+                fit: BoxFit.cover,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: Text(
-                        'DAFTAR',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+            ),
+          ),
+          // Konten utama
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 95),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        child: Image.asset(
+                          'assets/images/logoo.png',
+                          fit: BoxFit.contain,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    _buildTextField('Nama Lengkap'),
-                    SizedBox(height: 10),
-                    _buildTextField('Email'),
-                    SizedBox(height: 10),
-                    _buildTextField('Nomor Telepon'),
-                    SizedBox(height: 10),
-                    _buildPasswordField('Password', _obscurePassword, (bool value) {
-                      setState(() {
-                        _obscurePassword = value;
-                      });
-                    }),
-                    SizedBox(height: 10),
-                    _buildPasswordField('Konfirmasi Password', _obscureConfirmPassword, (bool value) {
-                      setState(() {
-                        _obscureConfirmPassword = value;
-                      });
-                    }),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Sudah memiliki akun? ',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => HalamanMasuk()), 
-                            );
-                          },
-                          child: Text(
-                            'Masuk',
+                      SizedBox(height: 10),
+                      Column(
+                        children: [
+                          Text(
+                            'TeraTNI',
                             style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.blue,
+                              fontSize: 27,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode ? Colors.white : Colors.black,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HalamanOTP()),
-                    );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: primaryColor,
-                        padding: EdgeInsets.symmetric(horizontal: 110, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+                          Text(
+                            'Hello, welcome!',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: isDarkMode ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        'Daftar',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+                SizedBox(height: 30),
+                // Ruang untuk konten tambahan jika diperlukan
+                SizedBox(height: screenHeight * 0.2), // Memberi jarak dari atas
+              ],
             ),
-          ],
-        ),
+          ),
+          // Kontainer di bagian bawah
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? Colors.grey[800] : Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
+                  ),
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: constraints.maxHeight,
+                      ),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(height: 10),
+                            Center(
+                              child: Text(
+                                'DAFTAR',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      isDarkMode ? Colors.white : Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            _buildTextField('Nama Lengkap', isDarkMode),
+                            SizedBox(height: 10),
+                            _buildTextField('Email', isDarkMode),
+                            SizedBox(height: 10),
+                            _buildTextField('Username', isDarkMode),
+                            SizedBox(height: 10),
+                            _buildPasswordField('Password', _obscurePassword,
+                                (bool value) {
+                              setState(() {
+                                _obscurePassword = value;
+                              });
+                            }, isDarkMode),
+                            SizedBox(height: 10),
+                            _buildPasswordField(
+                                'Konfirmasi Password', _obscureConfirmPassword,
+                                (bool value) {
+                              setState(() {
+                                _obscureConfirmPassword = value;
+                              });
+                            }, isDarkMode),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Sudah memiliki akun? ',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: isDarkMode
+                                        ? Colors.white70
+                                        : Colors.black87,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HalamanMasuk()),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Masuk',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HalamanOTP()),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: primaryColor,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 110, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: Text(
+                                'Daftar',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          )
+        ],
       ),
     );
   }
 
-  Widget _buildTextField(String labelText) {
+  Widget _buildTextField(String labelText, bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -162,19 +223,24 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
           ),
         ),
         SizedBox(height: 6),
         Container(
           height: 35,
           child: TextField(
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+                fontSize: 14, color: isDarkMode ? Colors.white : Colors.black),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide:
+                    BorderSide(color: isDarkMode ? Colors.white : Colors.black),
               ),
+              filled: true,
+              fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
             ),
           ),
         ),
@@ -182,7 +248,8 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
     );
   }
 
-  Widget _buildPasswordField(String labelText, bool obscureText, Function(bool) toggleVisibility) {
+  Widget _buildPasswordField(String labelText, bool obscureText,
+      Function(bool) toggleVisibility, bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -191,7 +258,7 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
           ),
         ),
         SizedBox(height: 6),
@@ -199,16 +266,22 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
           height: 35,
           child: TextField(
             obscureText: obscureText,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+                fontSize: 14, color: isDarkMode ? Colors.white : Colors.black),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
+                borderSide:
+                    BorderSide(color: isDarkMode ? Colors.white : Colors.black),
               ),
+              filled: true,
+              fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
               suffixIcon: IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,
                   size: 20,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
                 onPressed: () => toggleVisibility(!obscureText),
               ),

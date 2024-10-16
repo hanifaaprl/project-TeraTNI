@@ -171,7 +171,7 @@ class _MapsPageState extends State<MapsPage> {
                       child: Container(
                         height: 30,
                         decoration: BoxDecoration(
-                          color: Colors.white, // Background warna untuk TextField
+                          color: secondaryColor, // Background warna untuk TextField
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
@@ -186,7 +186,7 @@ class _MapsPageState extends State<MapsPage> {
                           style: TextStyle(fontSize: 12),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white, // Warna latar belakang
+                            fillColor: secondaryColor, // Warna latar belakang
                             suffixIcon: Icon(
                               Icons.search_sharp,
                               color: Colors.grey, // Warna ikon search
@@ -228,13 +228,13 @@ class _MapsPageState extends State<MapsPage> {
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15), // Padding tombol
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12), // Border radius tombol
-                        side: BorderSide(color: Colors.black, width: 1), // Garis pinggir (border)
+                        side: BorderSide(color: primaryColor, width: 2), // Garis pinggir (border)
                       ),
-                      backgroundColor: backgroundColor, // Warna background button
+                      backgroundColor: secondaryColor, // Warna background button
                     ),
                     child: Text(
                       'Posko Militer',
-                      style: TextStyle(color: Colors.black), // Warna teks button
+                      style: TextStyle(color: Colors.white), // Warna teks button
                       textAlign: TextAlign.center,
                       maxLines: 2, // Membuat teks dalam 2 baris jika diperlukan
                       overflow: TextOverflow.ellipsis, // Menghilangkan teks yang berlebih
@@ -254,13 +254,13 @@ class _MapsPageState extends State<MapsPage> {
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15), // Padding tombol
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12), // Border radius tombol
-                        side: BorderSide(color: Colors.black, width: 1), // Garis pinggir (border)
+                        side: BorderSide(color: primaryColor, width: 2), // Garis pinggir (border)
                       ),
-                      backgroundColor: backgroundColor, // Warna background button
+                      backgroundColor: secondaryColor, // Warna background button
                     ),
                     child: Text(
                       'Fasilitas Umum',
-                      style: TextStyle(color: Colors.black), // Warna teks button
+                      style: TextStyle(color: Colors.white), // Warna teks button
                       textAlign: TextAlign.center,
                       maxLines: 2, // Membuat teks dalam 2 baris jika diperlukan
                       overflow: TextOverflow.ellipsis, // Menghilangkan teks yang berlebih
@@ -280,13 +280,13 @@ class _MapsPageState extends State<MapsPage> {
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15), // Padding tombol
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12), // Border radius tombol
-                        side: BorderSide(color: Colors.black, width: 1), // Garis pinggir (border)
+                        side: BorderSide(color: primaryColor, width: 2), // Garis pinggir (border)
                       ),
-                      backgroundColor: backgroundColor, // Warna background button
+                      backgroundColor: secondaryColor, // Warna background button
                     ),
                     child: Text(
                       'Komplek Militer',
-                      style: TextStyle(color: Colors.black), // Warna teks button
+                      style: TextStyle(color: Colors.white), // Warna teks button
                       textAlign: TextAlign.center,
                       maxLines: 2, // Membuat teks dalam 2 baris jika diperlukan
                       overflow: TextOverflow.ellipsis, // Menghilangkan teks yang berlebih

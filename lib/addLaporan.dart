@@ -57,11 +57,10 @@ class _AddlaporanState extends State<Addlaporan> {
                   Container(
                     padding: EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: secondaryColor,
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
                           offset: Offset(0, 3),
@@ -134,7 +133,7 @@ class _AddlaporanState extends State<Addlaporan> {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 20,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -146,7 +145,7 @@ class _AddlaporanState extends State<Addlaporan> {
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -172,7 +171,7 @@ class _AddlaporanState extends State<Addlaporan> {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
+                color: secondaryColor.withOpacity(0.2),
                 spreadRadius: 1,
                 blurRadius: 35,
                 offset: Offset(0, 3),
@@ -202,7 +201,7 @@ class _AddlaporanState extends State<Addlaporan> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: secondaryColor.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 15,
             offset: Offset(2, 9),
@@ -220,7 +219,7 @@ class _AddlaporanState extends State<Addlaporan> {
                 selectedDate == null
                     ? 'Pilih Tanggal'
                     : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
-                style: TextStyle(fontSize: 16, color: Colors.black),
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
               Icon(Icons.calendar_today, color: Colors.grey),
             ],

@@ -11,14 +11,14 @@ class ProfileDetailPage extends StatelessWidget {
           // Bagian atas dengan IconButton dan teks
           Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
-            color: Colors.white, // Background untuk bagian header
+            color: backgroundColor, // Background untuk bagian header
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios_rounded,
-                    color: Colors.black,
+                    color: Colors.white,
                     size: 24,
                   ),
                   onPressed: () {
@@ -31,7 +31,7 @@ class ProfileDetailPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -46,7 +46,7 @@ class ProfileDetailPage extends StatelessWidget {
                 Center(
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundColor: Colors.grey.shade300,
+                    backgroundColor: Colors.white,
                     backgroundImage: AssetImage('assets/images/profile.jpeg'), // Ganti dengan path gambar profil jika ada
                   ),
                 ),
@@ -81,7 +81,7 @@ class ProfileDetailPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: secondaryColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -105,7 +105,7 @@ class ProfileDetailPage extends StatelessWidget {
           value,
           style: TextStyle(
             fontSize: 14,
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.white70,
           ),
         ),
       ),

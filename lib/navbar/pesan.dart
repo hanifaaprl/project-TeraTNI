@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/notif.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class PesanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

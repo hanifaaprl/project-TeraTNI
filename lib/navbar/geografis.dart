@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/navbar/editgeo.dart';
@@ -21,8 +22,10 @@ class _GeografisState extends State<Geografis> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
@@ -31,7 +34,7 @@ class _GeografisState extends State<Geografis> {
                 // Header
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  color: Colors.white,
+                  color: isDarkMode ? Colors.black : Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -39,7 +42,7 @@ class _GeografisState extends State<Geografis> {
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 24,
-                          color: Colors.black,
+                          color: isDarkMode ? Colors.white : Colors.black,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -51,7 +54,7 @@ class _GeografisState extends State<Geografis> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: isDarkMode ? Colors.white : Colors.black,
                         ),
                       ),
                     ],
@@ -166,7 +169,7 @@ class _GeografisState extends State<Geografis> {
                             style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: isDarkMode ? Colors.white : Colors.black,
                           ),
                           ),
                         ),
@@ -184,7 +187,7 @@ class _GeografisState extends State<Geografis> {
                                     containerTitles[index],
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.black,
+                                      color: isDarkMode ? Colors.white : Colors.black,
                                     ),
                                   ),
                                   SizedBox(height: 5),
@@ -286,6 +289,108 @@ class _GeografisState extends State<Geografis> {
                         ),
                       ),
                     ),
+                    Card(
+                        margin: EdgeInsets.only(bottom: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 5,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(12)),
+                              child: Image.asset(
+                                'assets/images/banjir.jpg',
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.3),
+                                padding: EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Banjir Bandang landa Papua tengah, 4 orang tewas',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      'Baru saja',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Card(
+                        margin: EdgeInsets.only(bottom: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 5,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(12)),
+                              child: Image.asset(
+                                'assets/images/banjir.jpg',
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.3),
+                                padding: EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Banjir Bandang landa Papua tengah, 4 orang tewas',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      'Baru saja',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       ],
                     ),
                   ),

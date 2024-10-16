@@ -19,14 +19,14 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            color: Colors.white,
+            color: backgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios_rounded,
-                    color: Colors.black,
+                    color: Colors.white,
                     size: 24,
                   ),
                   onPressed: () {
@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -101,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: secondaryColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -132,7 +132,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: secondaryColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -161,3 +161,4 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 }
+ 

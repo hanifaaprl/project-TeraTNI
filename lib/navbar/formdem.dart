@@ -1,153 +1,168 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 
-class FormDemografis extends StatefulWidget {
-  @override
-  _FormDemografisState createState() => _FormDemografisState();
-}
-
-class _FormDemografisState extends State<FormDemografis> {
-
+class FormDemografis extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            // Header
+            Positioned(
+              top: 40,
+              left: 10,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: 90),
-                  Container(
-                    padding: EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 24,
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Text(
-                            'Form Demografis',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  SizedBox(width: 20),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Demografis',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: 20),
-                        _buildTextField('Berapa umur anda?'),
-                        SizedBox(height: 20),
-                        _buildTextField('Angka kelahiran di daerah anda?'),
-                        SizedBox(height: 16),
-                        _buildTextField('Angka Kematian di daerah anda?'),
-                        SizedBox(height: 20),
-                        _buildTextField('Apa jenis pekerjaan anda?', maxLines: 3 ),
-                        SizedBox(height: 20),
-                        _buildTextField('Jenis Kelamin anda?'),
-                        SizedBox(height: 20),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Logika ketika tombol ditekan
-                            },
-                            child: Text(
-                              'Tambah Data',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor,
-                              padding: EdgeInsets.symmetric(horizontal: 90, vertical: 9),
-                              textStyle: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
-          Positioned(
-            top: 40,
-            left: 10,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    size: 20,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+        
+            // Kontainer utama
+            Positioned(
+              top: 100,
+              left: 16,
+              right: 16,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: isDarkMode ? Colors.grey[800] : Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(2, 2),
+                    )
+                  ],
                 ),
-                SizedBox(width: 15),
-                Text(
-                  'Demografis',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Form Demografis',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      _buildTextField('Berapa umur anda?', isDarkMode),
+                      SizedBox(height: 10),
+                      _buildTextField('Angka kelahiran di daerah anda?', isDarkMode),
+                      SizedBox(height: 10),
+                      _buildTextField('Angka kematian di daerah anda?', isDarkMode),
+                      SizedBox(height: 10),
+                      _buildTextField('Apa jenis pekerjaan anda?', isDarkMode, maxLines: 3),
+                      SizedBox(height: 10),
+                      _buildTextField('Jenis kelamin anda?', isDarkMode),
+                      SizedBox(height: 20),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Logika ketika tombol Daftar ditekan
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: primaryColor,
+                            padding: EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          child: Text(
+                            'Tambah Data',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 20),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
 
-  // Widget untuk TextField dengan shadow
-  Widget _buildTextField(String label, {int maxLines = 1}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+// Widget untuk TextField yang digunakan pada Formulir
+Widget _buildTextField(String labelText, bool isDarkMode, {int maxLines = 3}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        labelText,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: isDarkMode ? Colors.white70 : Colors.black87,
         ),
-        SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 1,
-                blurRadius: 35,
-                offset: Offset(0, 3),
-              ),
-            ],
+      ),
+      SizedBox(height: 8),
+      Container(
+        height: 45,
+        child: TextField(
+          maxLines: maxLines,
+          style: TextStyle(
+            fontSize: 14,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
-          child: TextField(
-            maxLines: maxLines,
-            decoration: InputDecoration(
-              isDense: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: isDarkMode ? Colors.white70 : Colors.black87,
               ),
-              contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             ),
+            filled: true,
+            fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
           ),
         ),
-      ],
-    );
-  }
-  }
+      ),
+    ],
+  );
+}

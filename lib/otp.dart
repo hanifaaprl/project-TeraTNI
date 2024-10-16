@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:projek1/otp2.dart';
 import 'colors.dart';
 
 class HalamanOTP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Mengambil tema saat ini
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: backgroundColor,
       body: Stack(
         children: [
           Padding(
@@ -15,7 +21,7 @@ class HalamanOTP extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 80),
-                _buildOTPOptions(),
+                _buildOTPOptions(isDarkMode),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
@@ -56,7 +62,7 @@ class HalamanOTP extends StatelessWidget {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 24,
-                    color: Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -68,7 +74,7 @@ class HalamanOTP extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
               ],
@@ -79,7 +85,7 @@ class HalamanOTP extends StatelessWidget {
     );
   }
 
-  Widget _buildOTPOptions() {
+  Widget _buildOTPOptions(bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -87,7 +93,7 @@ class HalamanOTP extends StatelessWidget {
           'Pilih salah satu opsi di bawah ini untuk mendapatkan kode verifikasi.',
           style: TextStyle(
             fontSize: 16,
-            color: Colors.black87,
+            color: isDarkMode ? Colors.white60 : Colors.black,
           ),
         ),
         SizedBox(height: 25),
@@ -97,12 +103,15 @@ class HalamanOTP extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
             foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-                side: BorderSide(
-                    color: const Color.fromARGB(120, 0, 0, 0), width: 0.7)),
+              borderRadius: BorderRadius.circular(15),
+              side: BorderSide(
+                color: const Color.fromARGB(120, 0, 0, 0),
+                width: 0.7,
+              ),
+            ),
             elevation: 5,
             shadowColor: Colors.black.withOpacity(0.3),
           ),
@@ -120,10 +129,15 @@ class HalamanOTP extends StatelessWidget {
                 'Send via Email',
                 style: TextStyle(
                   fontSize: 14,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               SizedBox(width: 120),
-              Icon(Icons.vpn_key_outlined, size: 25),
+              Icon(
+                Icons.vpn_key_outlined,
+                size: 25,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
             ],
           ),
         ),
@@ -134,12 +148,15 @@ class HalamanOTP extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
             foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-                side: BorderSide(
-                    color: Color.fromARGB(129, 0, 0, 0), width: 0.7)),
+              borderRadius: BorderRadius.circular(15),
+              side: BorderSide(
+                color: Color.fromARGB(129, 0, 0, 0),
+                width: 0.7,
+              ),
+            ),
             elevation: 5,
             shadowColor: Colors.black.withOpacity(0.3),
           ),
@@ -157,10 +174,15 @@ class HalamanOTP extends StatelessWidget {
                 'Send via WhatsApp',
                 style: TextStyle(
                   fontSize: 14,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               SizedBox(width: 90),
-              Icon(Icons.vpn_key_outlined, size: 25)
+              Icon(
+                Icons.vpn_key_outlined,
+                size: 25,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
             ],
           ),
         ),

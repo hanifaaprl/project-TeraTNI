@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/splashscreen.dart';
 
@@ -10,8 +11,13 @@ class HalamanVerifikasi extends StatefulWidget {
 class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
   @override
   Widget build(BuildContext context) {
+    // Mendapatkan tema saat ini
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: backgroundColor,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -21,9 +27,9 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 80), 
-                  _buildOTPOptions(),
+                  _buildOTPOptions(isDarkMode),
                   SizedBox(height: 20),
-                  _buildOTPKotak(),
+                  _buildOTPKotak(isDarkMode),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
@@ -58,7 +64,7 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                         'Belum menerima kode?',
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.black87,
+                          color: isDarkMode ? Colors.white70 : Colors.black87,
                         ),
                       ),
                       SizedBox(width: 5),
@@ -91,7 +97,7 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 24,
-                    color: Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -103,7 +109,7 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
               ],
@@ -113,7 +119,8 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
       ),
     );
   }
-  Widget _buildOTPOptions() {
+
+  Widget _buildOTPOptions(bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -122,20 +129,21 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
         Text(
           'Kami telah mengirimkan kode ke example@gmail.com',
           style: TextStyle(
             fontSize: 16,
-            color: Colors.black87,
+            color: isDarkMode ? Colors.white70 : Colors.black87,
           ),
         ),
       ],
     );
   }
-  Widget _buildOTPKotak() {
+
+  Widget _buildOTPKotak(bool isDarkMode) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(5, (index) {
@@ -155,18 +163,19 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                 borderRadius: BorderRadius.circular(8),
               ),
               filled: true,
-              fillColor: const Color.fromARGB(255, 255, 255, 255),
+              fillColor: isDarkMode ? Colors.grey[800] : Colors.white,
             ),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: isDarkMode ? Colors.white : Colors.black,
             ),
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             maxLength: 1,
-            buildCounter: (BuildContext context, {int? currentLength, bool? isFocused, int? maxLength}) {
-              return null; 
+            buildCounter: (BuildContext context,
+                {int? currentLength, bool? isFocused, int? maxLength}) {
+              return null;
             },
           ),
         );

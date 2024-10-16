@@ -58,7 +58,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 24,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -70,7 +70,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -103,7 +103,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _selectedValue,
-                        items: <String>['Papua', 'Maluku', 'Ternate']
+                        items: <String>['Papua','Papua Barat', 'Papua tengah', 'Papua Selatan']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -153,7 +153,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                   SizedBox(height: 20),
@@ -194,7 +194,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                   SizedBox(height: 20),
@@ -235,7 +235,7 @@ class _PersonilAktifState extends State<PersonilAktif> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                   SizedBox(height: 20),

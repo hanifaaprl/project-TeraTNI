@@ -1,8 +1,6 @@
+import 'package:syncfusion_flutter_charts/charts.dart'; // Pastikan ini sudah terimport
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
-import 'package:projek1/navbar/formdem.dart';
-import 'formdem.dart';
-import 'editdem.dart';
 
 class Demografis extends StatefulWidget {
   @override
@@ -10,8 +8,41 @@ class Demografis extends StatefulWidget {
 }
 
 class _DemografisState extends State<Demografis> {
-  String? selectedValue;
-  List<String> dropdownItems = ['Papua', 'Maluku', 'Ternate'];
+  String? selectedValue; // Variable for storing the selected value
+  List<String> dropdownItems = [
+    'Papua',
+    'Jawa Barat',
+    'Jawa Timur'
+  ]; // Dropdown items
+
+  // Data untuk chart
+  List<ChartData> chartData = [
+    ChartData('Remaja', 40, Color.fromARGB(255, 51, 85, 69)),
+    ChartData('Partai B', 30, Color.fromARGB(255, 84, 146, 103)),
+    ChartData('Partai C', 20, Colors.green),
+    ChartData('Partai D', 10, Color.fromARGB(255, 127, 220, 128)),
+  ];
+
+  List<ChartData2> chartData2 = [
+    ChartData2('2020', 50, 20),
+    ChartData2('2021', 55, 25),
+    ChartData2('2022', 60, 30),
+    ChartData2('2023', 65, 35),
+  ];
+
+  // Data untuk grafik jenis pekerjaan
+  List<ChartData> chartData3 = [
+    ChartData('Petani', 35, Colors.blue),
+    ChartData('Pengusaha', 25, Colors.green),
+    ChartData('PNS', 20, Colors.orange),
+    ChartData('Pedagang', 15, Colors.purple),
+    ChartData('Lain-lain', 5, Colors.red),
+  ];
+
+  List<ChartData> chartDataGender = [
+    ChartData('Laki-laki', 55, Colors.blue),
+    ChartData('Perempuan', 45, Colors.pink),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +56,7 @@ class _DemografisState extends State<Demografis> {
                 // Header
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  color: Colors.white,
+                  color: backgroundColor,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -33,7 +64,7 @@ class _DemografisState extends State<Demografis> {
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 24,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -45,7 +76,7 @@ class _DemografisState extends State<Demografis> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -64,7 +95,7 @@ class _DemografisState extends State<Demografis> {
                           children: [
                             // Dropdown di kiri
                             Container(
-                              width: 120,
+                              width: 130,
                               height: 30,
                               padding: EdgeInsets.symmetric(horizontal: 12),
                               decoration: BoxDecoration(
@@ -116,7 +147,7 @@ class _DemografisState extends State<Demografis> {
                               child: Container(
                                 height: 30,
                                 decoration: BoxDecoration(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
@@ -153,24 +184,19 @@ class _DemografisState extends State<Demografis> {
                         ),
                         SizedBox(height: 20),
 
-                        // Baris untuk item "Partai Politik Dominan"
+                        // Baris untuk item "Distribusi Umur"
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GestureDetector(
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => KekuatanLaut(),
-                                //   ),
-                                // );
+                                // Aksi ketika grafik ditekan
                               },
                               child: Container(
-                                width: 179,
+                                width: 190,
                                 height: 200,
                                 decoration: BoxDecoration(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
@@ -183,14 +209,44 @@ class _DemografisState extends State<Demografis> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(9),
-                                  child: Text(
-                                    'Distribusi Umur',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Distribusi Umur',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 10),
+                                      Expanded(
+                                        child: SfCircularChart(
+                                          legend: Legend(
+                                            isVisible: true,
+                                            position: LegendPosition.bottom,
+                                          ),
+                                          series: <CircularSeries>[
+                                            DoughnutSeries<ChartData, String>(
+                                              dataSource: chartData,
+                                              xValueMapper:
+                                                  (ChartData data, _) =>
+                                                      data.category,
+                                              yValueMapper:
+                                                  (ChartData data, _) =>
+                                                      data.value,
+                                              pointColorMapper:
+                                                  (ChartData data, _) =>
+                                                      data.color,
+                                              innerRadius: '60%',
+                                            )
+                                          ],
+                                          tooltipBehavior:
+                                              TooltipBehavior(enable: true),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -230,183 +286,195 @@ class _DemografisState extends State<Demografis> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
-
-                        // Container besar tambahan
-                        Center(
-  child: Container(
-    width: 250,
-    height: 300,
-    decoration: BoxDecoration(
-      color: primaryColor,
-      borderRadius: BorderRadius.circular(20),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.3),
-          spreadRadius: 1,
-          blurRadius: 5,
-          offset: Offset(2, 2),
-        ),
-      ],
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(9.0),
-          child: Text(
-            'Angka Kelahiran',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-
-        // Tombol di bagian bawah
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () {
-              // Aksi yang akan dilakukan ketika tombol ditekan
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: secondaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 90, vertical: 10),
-            ),
-            child: Text(
-              'Details',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  ),
-),
 
                         SizedBox(height: 20),
-                        Center(
-                          child: Container(
-                            width: 250,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(9.0),
-                              child: Text(
-                                'Jenis Pekerjaan',
+
+                        // Container baru untuk grafik kelahiran dan kematian
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Grafik Kelahiran dan Kematian',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                            ),
+                              SizedBox(height: 10),
+                              SfCartesianChart(
+                                primaryXAxis: CategoryAxis(),
+                                legend: Legend(isVisible: true),
+                                series: <ChartSeries>[
+                                  ColumnSeries<ChartData2, String>(
+                                    name: 'Kelahiran',
+                                    dataSource: chartData2,
+                                    xValueMapper: (ChartData2 data, _) =>
+                                        data.year,
+                                    yValueMapper: (ChartData2 data, _) =>
+                                        data.births,
+                                    color: Colors.green,
+                                  ),
+                                  ColumnSeries<ChartData2, String>(
+                                    name: 'Kematian',
+                                    dataSource: chartData2,
+                                    xValueMapper: (ChartData2 data, _) =>
+                                        data.year,
+                                    yValueMapper: (ChartData2 data, _) =>
+                                        data.deaths,
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  // Aksi ketika tombol ditekan
+                                  print("Tombol Details ditekan");
+                                  // Bisa digunakan untuk navigasi ke halaman lain atau menampilkan detail tambahan
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: primaryColor, // Warna tombol
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        12), // Membuat tombol lebih melengkung
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text(
+                                    'Details',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(height: 20),
-                        Center(
-                          child: Container(
-                            width: 250,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(9.0),
-                              child: Text(
-                                'Jenis Kelamin',
+                        // Container baru untuk grafik jenis pekerjaan menggunakan DoughnutChart
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Distribusi Jenis Pekerjaan',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                            ),
+                              SizedBox(height: 10),
+                              SfCircularChart(
+                                legend: Legend(
+                                  isVisible: true,
+                                  position: LegendPosition.bottom,
+                                ),
+                                series: <CircularSeries>[
+                                  DoughnutSeries<ChartData, String>(
+                                    dataSource:
+                                        chartData3, // Data untuk grafik donat
+                                    xValueMapper: (ChartData data, _) =>
+                                        data.category,
+                                    yValueMapper: (ChartData data, _) =>
+                                        data.value,
+                                    pointColorMapper: (ChartData data, _) =>
+                                        data.color,
+                                    innerRadius:
+                                        '60%', // Membuat grafik menjadi donat
+                                  )
+                                ],
+                                tooltipBehavior: TooltipBehavior(enable: true),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(height: 20),
+                        // Container baru untuk grafik jenis kelamin menggunakan DoughnutChart
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Distribusi Jenis Kelamin',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 10),
+                              SfCircularChart(
+                                legend: Legend(
+                                  isVisible: true,
+                                  position: LegendPosition.bottom,
+                                ),
+                                series: <CircularSeries>[
+                                  DoughnutSeries<ChartData, String>(
+                                    dataSource:
+                                        chartDataGender, // Data untuk grafik jenis kelamin
+                                    xValueMapper: (ChartData data, _) =>
+                                        data.category,
+                                    yValueMapper: (ChartData data, _) =>
+                                        data.value,
+                                    pointColorMapper: (ChartData data, _) =>
+                                        data.color,
+                                    innerRadius:
+                                        '60%', // Membuat grafik menjadi donat
+                                  )
+                                ],
+                                tooltipBehavior: TooltipBehavior(enable: true),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ),
               ],
-            ),
-
-            // Tambahkan tombol di pojok kanan bawah menggunakan Container dengan IconButton
-            Positioned(
-              bottom: 30,
-              right: 20,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.add, color: Colors.white, size: 30),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FormDemografis(), // Halaman untuk menambah data
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.edit, color: Colors.white, size: 30),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditDemografis(), // Halaman untuk mengedit data
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),
@@ -414,32 +482,37 @@ class _DemografisState extends State<Demografis> {
     );
   }
 
-  // Fungsi untuk membangun container kecil
   Widget _buildSmallContainer(String label) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       width: 120,
       height: 35,
       decoration: BoxDecoration(
         color: primaryColor,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(2, 2),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Center(
-        child: Text(
-          label,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-          ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 12,
         ),
       ),
     );
   }
+}
+
+// Kelas untuk data chart
+class ChartData {
+  ChartData(this.category, this.value, this.color);
+  final String category;
+  final double value;
+  final Color color;
+}
+
+class ChartData2 {
+  ChartData2(this.year, this.births, this.deaths);
+  final String year;
+  final double births;
+  final double deaths;
 }

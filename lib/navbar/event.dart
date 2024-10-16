@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projek1/addLaporan.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/notif.dart';
-import 'package:projek1/berita.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class EventPage extends StatefulWidget {
   @override
@@ -19,8 +19,10 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AdaptiveTheme.of(context);
+    final isDarkMode = theme.mode.isDark;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -207,18 +209,18 @@ class _EventPageState extends State<EventPage> {
                     // Card 1
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailBeritaPage(
-                              title:
-                                  'Banjir Bandang landa Papua tengah, 4 orang tewas',
-                              description:
-                                  'Banjir bandang yang terjadi di Papua Tengah menyebabkan kerugian besar dan korban jiwa sebanyak 4 orang...',
-                              imagePath: 'assets/images/banjir.jpg',
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DetailBeritaPage(
+                        //       title:
+                        //           'Banjir Bandang landa Papua tengah, 4 orang tewas',
+                        //       description:
+                        //           'Banjir bandang yang terjadi di Papua Tengah menyebabkan kerugian besar dan korban jiwa sebanyak 4 orang...',
+                        //       imagePath: 'assets/images/banjir.jpg',
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Card(
                         margin: EdgeInsets.only(bottom: 20),
@@ -275,18 +277,18 @@ class _EventPageState extends State<EventPage> {
                     // Card 2 (Kartu lainnya mengikuti format yang sama)
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailBeritaPage(
-                              title:
-                                  'KKB tembak pilot heli WN Selandia baru hingga tewas',
-                              description:
-                                  'Kelompok kriminal bersenjata kembali menyerang, kali ini menembak mati seorang pilot helikopter asal Selandia Baru...',
-                              imagePath: 'assets/images/kkb.jpg',
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DetailBeritaPage(
+                        //       title:
+                        //           'KKB tembak pilot heli WN Selandia baru hingga tewas',
+                        //       description:
+                        //           'Kelompok kriminal bersenjata kembali menyerang, kali ini menembak mati seorang pilot helikopter asal Selandia Baru...',
+                        //       imagePath: 'assets/images/kkb.jpg',
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Card(
                         margin: EdgeInsets.only(bottom: 20),
