@@ -25,7 +25,8 @@ class _GeografisState extends State<Geografis> {
     final theme = AdaptiveTheme.of(context);
     final isDarkMode = theme.mode.isDark;
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: backgroundColor,
+      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
@@ -34,7 +35,8 @@ class _GeografisState extends State<Geografis> {
                 // Header
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  color: isDarkMode ? Colors.black : Colors.white,
+                  color: backgroundColor,
+                  //color: isDarkMode ? Colors.black : Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -42,7 +44,8 @@ class _GeografisState extends State<Geografis> {
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 24,
-                          color: isDarkMode ? Colors.white : Colors.black,
+                          color: Colors.white,
+                          //color: isDarkMode ? Colors.white : Colors.black,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -54,7 +57,8 @@ class _GeografisState extends State<Geografis> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: isDarkMode ? Colors.white : Colors.black,
+                          color: Colors.white,
+                          //color: isDarkMode ? Colors.white : Colors.black,
                         ),
                       ),
                     ],
@@ -169,7 +173,8 @@ class _GeografisState extends State<Geografis> {
                             style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: isDarkMode ? Colors.white : Colors.black,
+                            color: Colors.white,
+                            //color: isDarkMode ? Colors.white : Colors.black,
                           ),
                           ),
                         ),
@@ -187,7 +192,8 @@ class _GeografisState extends State<Geografis> {
                                     containerTitles[index],
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: isDarkMode ? Colors.white : Colors.black,
+                                      color: Colors.white70,
+                                      //color: isDarkMode ? Colors.white : Colors.black,
                                     ),
                                   ),
                                   SizedBox(height: 5),
@@ -249,7 +255,7 @@ class _GeografisState extends State<Geografis> {
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(12)),
                               child: Image.asset(
-                                'assets/images/banjir.jpg',
+                                'assets/images/gempa.jpg',
                                 height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -301,7 +307,7 @@ class _GeografisState extends State<Geografis> {
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(12)),
                               child: Image.asset(
-                                'assets/images/banjir.jpg',
+                                'assets/images/kkb.jpg',
                                 height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -408,7 +414,7 @@ class _GeografisState extends State<Geografis> {
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                      color: secondaryColor,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
@@ -425,7 +431,7 @@ class _GeografisState extends State<Geografis> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: secondaryColor,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(

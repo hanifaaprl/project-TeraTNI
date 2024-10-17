@@ -1,3 +1,5 @@
+import 'package:projek1/navbar/editdem.dart';
+import 'package:projek1/navbar/formdem.dart';
 import 'package:syncfusion_flutter_charts/charts.dart'; // Pastikan ini sudah terimport
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
@@ -263,20 +265,21 @@ class _DemografisState extends State<Demografis> {
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
                                   SizedBox(height: 10),
                                   Text(
                                     "Jumlah Populasi",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: 12, color: Colors.white70),
                                   ),
                                   SizedBox(height: 10),
                                   _buildSmallContainer('3.000.000'),
                                   SizedBox(height: 10),
                                   Text(
                                     "Agama",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: 12, color: Colors.white70),
                                   ),
                                   SizedBox(height: 10),
                                   _buildSmallContainer('5'),
@@ -469,12 +472,58 @@ class _DemografisState extends State<Demografis> {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
               ],
+            ),
+            Positioned(
+              bottom: 30,
+              right: 20,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.add, color: Colors.white, size: 30),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FormDemografis(), // Halaman untuk menambah data
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.edit, color: Colors.white, size: 30),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                EditDemografis(), // Halaman untuk mengedit data
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -491,11 +540,13 @@ class _DemografisState extends State<Demografis> {
         color: primaryColor,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 12,
+      child: Center(
+        child: Text(
+          label,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+          ),
         ),
       ),
     );

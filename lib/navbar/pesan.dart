@@ -6,10 +6,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 class PesanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor:backgroundColor, // Latar belakang putih
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -17,12 +15,12 @@ class PesanPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20), // Tambahan jarak untuk margin atas
+                SizedBox(height: 20),
                 // Logo dan ikon notifikasi
                 Row(
                   children: [
                     Image.asset(
-                      'assets/images/logoo.png', // Ganti dengan path gambar yang sesuai
+                      'assets/images/logoo.png',
                       width: 35,
                       height: 35,
                       fit: BoxFit.cover,
@@ -32,7 +30,7 @@ class PesanPage extends StatelessWidget {
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
-                        color: primaryColor,
+                        color: primaryColor, // Warna latar belakang ikon
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -51,9 +49,9 @@ class PesanPage extends StatelessWidget {
                         ),
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Notif()), 
-                            );
+                            context,
+                            MaterialPageRoute(builder: (context) => Notif()),
+                          );
                         },
                       ),
                     ),
@@ -63,28 +61,28 @@ class PesanPage extends StatelessWidget {
                 Container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.white, // Warna latar belakang TextField
+                    color: Colors.grey[200], // Warna latar belakang TextField
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2), // Warna shadow
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                        offset: Offset(0, 5), // Arah dan jarak shadow
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
                   child: TextField(
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12, color: Colors.black), // Warna teks
                     decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.search),
+                      suffixIcon: Icon(Icons.search, color: Colors.black), // Warna ikon
                       hintText: "Cari ...",
+                      hintStyle: TextStyle(color: Colors.grey), // Warna hint
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide
-                            .none, // Hilangkan border agar sesuai dengan container
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
@@ -126,7 +124,7 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with $sender'),
+        title: Text('Chat with $sender', style: TextStyle(color: Colors.white)), // Warna teks judul
         backgroundColor: primaryColor,
       ),
       body: Column(
@@ -134,17 +132,18 @@ class ChatPage extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.all(16),
+              color: Colors.white, // Warna latar belakang body
               child: ListView(
                 children: [
                   // Contoh pesan di halaman chat
                   Text(
                     "$sender: Halo! Bagaimana kabarmu?",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: Colors.black), // Warna teks
                   ),
                   SizedBox(height: 10),
                   Text(
                     "Kamu: Baik! Bagaimana denganmu?",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: Colors.black), // Warna teks
                   ),
                 ],
               ),
@@ -158,6 +157,7 @@ class ChatPage extends StatelessWidget {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Ketik pesan...',
+                      hintStyle: TextStyle(color: Colors.grey), // Warna hint
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -165,7 +165,7 @@ class ChatPage extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: Icon(Icons.send, color: primaryColor), // Warna ikon kirim
                   onPressed: () {
                     // Aksi ketika tombol kirim ditekan
                   },
@@ -228,12 +228,13 @@ class ChatItem extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      color: Colors.black, // Warna teks pengirim
                     ),
                   ),
                   SizedBox(height: 5),
                   Text(
                     message,
-                    style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade600), // Warna teks pesan
                   ),
                 ],
               ),

@@ -64,7 +64,8 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                         'Belum menerima kode?',
                         style: TextStyle(
                           fontSize: 12,
-                          color: isDarkMode ? Colors.white70 : Colors.black87,
+                          color: Colors.white70,
+                          //color: isDarkMode ? Colors.white70 : Colors.black87,
                         ),
                       ),
                       SizedBox(width: 5),
@@ -97,7 +98,8 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 24,
-                    color: isDarkMode ? Colors.white : Colors.black,
+                    color: Colors.white,
+                    //color: isDarkMode ? Colors.white : Colors.black,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -109,7 +111,8 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: isDarkMode ? Colors.white : Colors.black,
+                    color: Colors.white,
+                    //color: isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
               ],
@@ -129,14 +132,16 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white : Colors.black,
+            color: Colors.white,
+            //color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
         Text(
           'Kami telah mengirimkan kode ke example@gmail.com',
           style: TextStyle(
             fontSize: 16,
-            color: isDarkMode ? Colors.white70 : Colors.black87,
+            color: Colors.white70,
+            //color: isDarkMode ? Colors.white70 : Colors.black87,
           ),
         ),
       ],
@@ -160,15 +165,23 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 15),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Mengatur ketebalan garis pinggir
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Menambahkan garis putih untuk border normal
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Garis putih saat fokus
               ),
               filled: true,
-              fillColor: isDarkMode ? Colors.grey[800] : Colors.white,
+              fillColor: secondaryColor,
             ),
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: isDarkMode ? Colors.white : Colors.black,
+              color: Colors.white,
             ),
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,

@@ -25,7 +25,8 @@ class HalamanVerifikasiBerhasil extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: isDarkMode ? Colors.white : Colors.black,
+                color: Colors.white,
+                //color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
             SizedBox(height: 20),
@@ -34,7 +35,8 @@ class HalamanVerifikasiBerhasil extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: isDarkMode ? Colors.white70 : Colors.black87,
+                color: Colors.white70
+                //color: isDarkMode ? Colors.white70 : Colors.black87,
               ),
             ),
             Text(
@@ -42,7 +44,8 @@ class HalamanVerifikasiBerhasil extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: isDarkMode ? Colors.white70 : Colors.black87,
+                color: Colors.white70,
+                //olor: isDarkMode ? Colors.white70 : Colors.black87,
               ),
             ),
             SizedBox(height: 30),

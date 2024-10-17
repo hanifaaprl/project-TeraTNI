@@ -82,7 +82,7 @@ class ProfileDetailPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
         color: secondaryColor,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -99,6 +99,7 @@ class ProfileDetailPage extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
+            color: primaryColor,
           ),
         ),
         subtitle: Text(

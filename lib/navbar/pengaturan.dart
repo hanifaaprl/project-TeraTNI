@@ -120,6 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
         onTap: onTap,
@@ -150,6 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
         trailing: Switch(

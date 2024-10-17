@@ -76,6 +76,7 @@ class _AddlaporanState extends State<Addlaporan> {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -86,7 +87,7 @@ class _AddlaporanState extends State<Addlaporan> {
                         SizedBox(height: 16),
                         Text(
                           'Tanggal Laporan',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 16, color: Colors.white70),
                         ),
                         SizedBox(height: 8),
                         _buildDatePickerField(),
@@ -164,7 +165,7 @@ class _AddlaporanState extends State<Addlaporan> {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, color: Colors.white70),
         ),
         SizedBox(height: 8),
         Container(
@@ -183,7 +184,7 @@ class _AddlaporanState extends State<Addlaporan> {
             decoration: InputDecoration(
               isDense: true,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(12),
               ),
               contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             ),
@@ -219,7 +220,7 @@ class _AddlaporanState extends State<Addlaporan> {
                 selectedDate == null
                     ? 'Pilih Tanggal'
                     : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(fontSize: 16, color: Colors.white70),
               ),
               Icon(Icons.calendar_today, color: Colors.grey),
             ],
@@ -236,7 +237,7 @@ class _AddlaporanState extends State<Addlaporan> {
       children: [
         Text(
           'Upload Foto',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, color: Colors.white70),
         ),
         SizedBox(height: 8),
         Container(

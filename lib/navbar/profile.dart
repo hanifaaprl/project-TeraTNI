@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
+import 'package:projek1/masuk.dart';
+import 'package:projek1/onboarding.dart';
 import 'package:projek1/setProfil.dart';
 import 'pengaturan.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
@@ -12,8 +14,10 @@ class ProfilePage extends StatelessWidget {
 
     // Tentukan warna berdasarkan mode gelap atau terang
     //final backgroundColor = isDarkMode ? Colors.grey[900] : Colors.white;
-    final cardColor = isDarkMode ? Colors.grey[800] : Colors.white;
-    final textColor = isDarkMode ? Colors.white : Colors.black87;
+    // final cardColor = isDarkMode ? Colors.grey[800] : Colors.white;
+    // final textColor = isDarkMode ? Colors.white : Colors.black87;
+    final cardColor = secondaryColor;
+    final textColor = primaryColor;
 
     return Scaffold(
       backgroundColor: backgroundColor, // Background mengikuti tema
@@ -92,7 +96,10 @@ class ProfilePage extends StatelessWidget {
                         style: TextStyle(color: textColor), // Warna teks mengikuti tema
                       ),
                       onTap: () {
-                        // Tambahkan logika logout di sini
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HalamanMasuk()),
+                        );
                       },
                     ),
                   ),

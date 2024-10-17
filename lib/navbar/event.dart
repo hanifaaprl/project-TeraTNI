@@ -22,7 +22,8 @@ class _EventPageState extends State<EventPage> {
     final theme = AdaptiveTheme.of(context);
     final isDarkMode = theme.mode.isDark;
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: backgroundColor,
+      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -165,7 +166,7 @@ class _EventPageState extends State<EventPage> {
                         height: 30,
                         decoration: BoxDecoration(
                           color:
-                              primaryColor, // Warna latar belakang TextField menjadi putih
+                              secondaryColor, // Warna latar belakang TextField menjadi putih
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
@@ -209,18 +210,7 @@ class _EventPageState extends State<EventPage> {
                     // Card 1
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => DetailBeritaPage(
-                        //       title:
-                        //           'Banjir Bandang landa Papua tengah, 4 orang tewas',
-                        //       description:
-                        //           'Banjir bandang yang terjadi di Papua Tengah menyebabkan kerugian besar dan korban jiwa sebanyak 4 orang...',
-                        //       imagePath: 'assets/images/banjir.jpg',
-                        //     ),
-                        //   ),
-                        // );
+                       
                       },
                       child: Card(
                         margin: EdgeInsets.only(bottom: 20),
@@ -277,18 +267,7 @@ class _EventPageState extends State<EventPage> {
                     // Card 2 (Kartu lainnya mengikuti format yang sama)
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => DetailBeritaPage(
-                        //       title:
-                        //           'KKB tembak pilot heli WN Selandia baru hingga tewas',
-                        //       description:
-                        //           'Kelompok kriminal bersenjata kembali menyerang, kali ini menembak mati seorang pilot helikopter asal Selandia Baru...',
-                        //       imagePath: 'assets/images/kkb.jpg',
-                        //     ),
-                        //   ),
-                        // );
+                        
                       },
                       child: Card(
                         margin: EdgeInsets.only(bottom: 20),
@@ -303,6 +282,62 @@ class _EventPageState extends State<EventPage> {
                                   top: Radius.circular(12)),
                               child: Image.asset(
                                 'assets/images/kkb.jpg',
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.3),
+                                padding: EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'KKB tembak pilot heli WN Selandia baru hingga tewas',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      '5 menit yang lalu',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        
+                      },
+                      child: Card(
+                        margin: EdgeInsets.only(bottom: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 5,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(12)),
+                              child: Image.asset(
+                                'assets/images/gempa.jpg',
                                 height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,

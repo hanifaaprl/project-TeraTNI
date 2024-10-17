@@ -138,7 +138,8 @@ class _QuickCountState extends State<QuickCount> {
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 10), // Beri jarak antar kontainer
       decoration: BoxDecoration(
-        color: isDarkMode ? Colors.grey[800] : Colors.white,
+        color: secondaryColor,
+        //color: isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -187,7 +188,8 @@ Widget _buildTextField(String labelText, bool isDarkMode) {
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
-          color: isDarkMode ? Colors.white70 : Colors.black87,
+          color: Colors.white70,
+          //color: isDarkMode ? Colors.white70 : Colors.black87,
         ),
       ),
       SizedBox(height: 8),
@@ -196,18 +198,25 @@ Widget _buildTextField(String labelText, bool isDarkMode) {
         child: TextField(
           style: TextStyle(
             fontSize: 14,
-            color: isDarkMode ? Colors.white : Colors.black,
+            color: Colors.white,
+            //color: isDarkMode ? Colors.white : Colors.black,
           ),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: isDarkMode ? Colors.white70 : Colors.black87,
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: primaryColor, width: 1.0), // Mengatur ketebalan garis pinggir
               ),
-            ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: primaryColor, width: 1.0), // Menambahkan garis putih untuk border normal
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: primaryColor, width: 1.0), // Garis putih saat fokus
+              ),
             filled: true,
-            fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
+            fillColor: secondaryColor,
           ),
         ),
       ),

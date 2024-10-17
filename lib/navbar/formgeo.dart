@@ -46,13 +46,13 @@ class _FormGeografisState extends State<FormGeografis> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
-    final backgroundColor = isDarkMode ? Colors.black : Colors.white;
-    final cardColor = isDarkMode ? Colors.grey[700] : Colors.white;
-    final textColor = isDarkMode ? Colors.white : Colors.black87;
-    final containerColor = isDarkMode ? Colors.grey[800] : Colors.grey[200];
-    final shadowColor = isDarkMode ? Colors.grey[700]! : Colors.grey.withOpacity(0.3);
+    // final theme = AdaptiveTheme.of(context);
+    // final isDarkMode = theme.mode.isDark;
+    // final backgroundColor = isDarkMode ? Colors.black : Colors.white;
+    // final cardColor = isDarkMode ? Colors.grey[700] : Colors.white;
+    // final textColor = isDarkMode ? Colors.white : Colors.black87;
+    // final containerColor = isDarkMode ? Colors.grey[800] : Colors.grey[200];
+    // final shadowColor = isDarkMode ? Colors.grey[700]! : Colors.grey.withOpacity(0.3);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -86,6 +86,7 @@ class _FormGeografisState extends State<FormGeografis> {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -165,7 +166,7 @@ class _FormGeografisState extends State<FormGeografis> {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, color: Colors.white70),
         ),
         SizedBox(height: 8),
         Container(
@@ -184,7 +185,7 @@ class _FormGeografisState extends State<FormGeografis> {
             decoration: InputDecoration(
               isDense: true,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(12),
               ),
               contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             ),
@@ -200,7 +201,7 @@ class _FormGeografisState extends State<FormGeografis> {
       children: [
         Text(
           'Gambar Lokasi Fasilitas',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, color: Colors.white70),
         ),
         SizedBox(height: 8),
         Container(
@@ -210,14 +211,6 @@ class _FormGeografisState extends State<FormGeografis> {
               color: Colors.grey,
               style: BorderStyle.solid, // Border style garis solid luar
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
           ),
           child: InkWell(
             onTap: () => _showImageSourceDialog(),

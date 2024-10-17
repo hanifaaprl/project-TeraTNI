@@ -9,6 +9,7 @@ import 'sosial.dart';
 import 'demografis.dart';
 import 'geografis.dart';
 import 'lingkungan.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,14 +31,13 @@ class _HomePageState extends State<HomePage> {
       ChartData('Per', 200),
     ];
     var data2 = [
-      ChartData2('Angkatan Laut', 40, secondaryColor),
+      ChartData2('Angkatan Laut', 40, const Color.fromARGB(255, 39, 65, 40)),
       ChartData2('Marinir', 30, Colors.green),
-      ChartData2('Kapal Selam', 15, Colors.red),
-      ChartData2('Helikopter', 15, Colors.orange),
+      ChartData2('Kapal Selam', 15, Color.fromARGB(255, 160, 229, 170)),
+      ChartData2('Helikopter', 15, Color.fromARGB(255, 80, 121, 54)),
     ];
 
     return Scaffold(
-      //backgroundColor: isDarkMode ? Colors.black : Colors.white,
       backgroundColor: backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                               spreadRadius: 1,
                               blurRadius: 5,
                               offset: Offset(2, 2),
-                            )
+                            ),
                           ],
                         ),
                         child: Padding(
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                                       yValueMapper: (ChartData data, _) =>
                                           data.value,
                                       color: primaryColor,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -216,12 +216,13 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             "Kavaleri",
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontSize: 12, color: Colors.white70),
                           ),
                           SizedBox(height: 10),
                           // Container kecil 1
@@ -229,14 +230,14 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 10),
                           Text(
                             "Infanteri",
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontSize: 12, color: Colors.white70),
                           ),
                           SizedBox(height: 10),
                           _buildSmallContainer('750'),
                           SizedBox(height: 10),
                           Text(
                             "Artileri",
-                            style: TextStyle(fontSize: 12),
+                            style: TextStyle(fontSize: 12, color: Colors.white70),
                           ),
                           SizedBox(height: 10),
                           _buildSmallContainer('100'),
@@ -278,14 +279,37 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(9),
-                          child: Text(
-                            'Kekuatan Laut',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Kekuatan Laut',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 10),
+                              Expanded(
+                                child: SfCircularChart(
+                                  series: <CircularSeries>[
+                                    DoughnutSeries<ChartData2, String>(
+                                      dataSource: data2,
+                                      xValueMapper: (ChartData2 data, _) =>
+                                          data.category,
+                                      yValueMapper: (ChartData2 data, _) =>
+                                          data.value,
+                                      pointColorMapper: (ChartData2 data, _) =>
+                                          data.color,
+                                      dataLabelSettings:
+                                          DataLabelSettings(isVisible: true),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -343,45 +367,55 @@ class _HomePageState extends State<HomePage> {
                           child: _buildSmallContainer('Lingkungan'),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
-                SizedBox(height: 20), // Tambahan jarak
-                // Widget peta OpenStreetMap
+                SizedBox(height: 20),
+// Menambahkan peta
                 Container(
-                  height: 300, // Tinggi peta
-                  child: Stack(
-                    children: [
-                      FlutterMap(
-                        options: MapOptions(
-                          center: LatLng(-2.0, 135.2),
-                          zoom: 5.0, // Level zoom
-                        ),
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            subdomains: ['a', 'b', 'c'],
-                          ),
-                          MarkerLayer(
-                            markers: [
-                              Marker(
-                                width: 80.0,
-                                height: 80.0,
-                                point: LatLng(-3.0, 135.0),
-                                builder: (ctx) => Container(
-                                  child: Icon(
-                                    Icons.location_on,
-                                    color: Colors.black,
-                                    size: 40.0,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                  width: double.infinity,
+                  height: 250, // Tinggi persegi peta
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(2, 2),
                       ),
                     ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: FlutterMap(
+                      options: MapOptions(
+                        center:
+                            LatLng(-4.269928, 138.080353), // Koordinat Papua
+                        zoom: 5.0, // Zoom level yang sesuai untuk Papua
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                          subdomains: ['a', 'b', 'c'],
+                        ),
+                        MarkerLayer(
+                          markers: [
+                            Marker(
+                              width: 80.0,
+                              height: 80.0,
+                              point: LatLng(-3.91828, 137.72079), // Koordinat Jayapura
+                              builder: (ctx) => Icon(
+                                Icons.location_on,
+                                color: secondaryColor,
+                                size: 40,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -392,32 +426,38 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Widget untuk membangun kontainer kecil
-  Widget _buildSmallContainer(String text) {
+  Widget _buildSmallContainer(String label) {
     return Container(
       width: 120,
       height: 40,
-      alignment: Alignment.center,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
       decoration: BoxDecoration(
         color: primaryColor,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(2, 2),
+      ),
+      child: Center(
+        child: Text(
+          label,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12,
           ),
-        ],
+        ),
       ),
     );
   }
+}
+
+class ChartData {
+  final String month;
+  final double value;
+
+  ChartData(this.month, this.value);
+}
+
+class ChartData2 {
+  final String category;
+  final double value;
+  final Color color;
+
+  ChartData2(this.category, this.value, this.color);
 }

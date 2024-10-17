@@ -62,7 +62,8 @@ class HalamanOTP extends StatelessWidget {
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 24,
-                    color: isDarkMode ? Colors.white : Colors.black,
+                    color: Colors.white,
+                    //color: isDarkMode ? Colors.white : Colors.black,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -74,7 +75,8 @@ class HalamanOTP extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: isDarkMode ? Colors.white : Colors.black,
+                    color: Colors.white,
+                    //color: isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
               ],
@@ -93,7 +95,8 @@ class HalamanOTP extends StatelessWidget {
           'Pilih salah satu opsi di bawah ini untuk mendapatkan kode verifikasi.',
           style: TextStyle(
             fontSize: 16,
-            color: isDarkMode ? Colors.white60 : Colors.black,
+            color: Colors.white70,
+            //color: isDarkMode ? Colors.white60 : Colors.black,
           ),
         ),
         SizedBox(height: 25),
@@ -102,8 +105,10 @@ class HalamanOTP extends StatelessWidget {
             // Aksi untuk mengirim OTP melalui email
           },
           style: ElevatedButton.styleFrom(
-            foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-            backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
+            // foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+            // backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
+            foregroundColor: Colors.white,
+            backgroundColor: secondaryColor,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
@@ -129,14 +134,16 @@ class HalamanOTP extends StatelessWidget {
                 'Send via Email',
                 style: TextStyle(
                   fontSize: 14,
-                  color: isDarkMode ? Colors.white : Colors.black,
+                  color: Colors.white,
+                  //color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               SizedBox(width: 120),
               Icon(
                 Icons.vpn_key_outlined,
                 size: 25,
-                color: isDarkMode ? Colors.white : Colors.black,
+                color: Colors.white,
+                //color: isDarkMode ? Colors.white : Colors.black,
               ),
             ],
           ),
@@ -147,8 +154,10 @@ class HalamanOTP extends StatelessWidget {
             // Aksi untuk mengirim OTP melalui WhatsApp
           },
           style: ElevatedButton.styleFrom(
-            foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-            backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
+            // foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+            // backgroundColor: isDarkMode ? Colors.grey[850] : Colors.white,
+            foregroundColor: Colors.white,
+            backgroundColor: secondaryColor,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
@@ -174,14 +183,16 @@ class HalamanOTP extends StatelessWidget {
                 'Send via WhatsApp',
                 style: TextStyle(
                   fontSize: 14,
-                  color: isDarkMode ? Colors.white : Colors.black,
+                  color: Colors.white,
+                  //color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               SizedBox(width: 90),
               Icon(
                 Icons.vpn_key_outlined,
                 size: 25,
-                color: isDarkMode ? Colors.white : Colors.black,
+                color: Colors.white,
+                //color: isDarkMode ? Colors.white : Colors.black,
               ),
             ],
           ),

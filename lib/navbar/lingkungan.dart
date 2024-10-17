@@ -318,7 +318,7 @@ class _LingkunganState extends State<Lingkungan> {
                                           ),
                                         ),
                                         SizedBox(width: 10),
-                                        Text('Sawah'),
+                                        Text('Sawah', style: TextStyle(color: Colors.white),),
                                         SizedBox(
                                             width: 30), // Jarak antar titik
                                       ],
@@ -335,7 +335,7 @@ class _LingkunganState extends State<Lingkungan> {
                                           ),
                                         ),
                                         SizedBox(width: 10),
-                                        Text('Hutan Mangrove'),
+                                        Text('Hutan Mangrove', style: TextStyle(color: Colors.white),),
                                         SizedBox(width: 30),
                                       ],
                                     ),
@@ -351,7 +351,7 @@ class _LingkunganState extends State<Lingkungan> {
                                           ),
                                         ),
                                         SizedBox(width: 10),
-                                        Text('Hutan Lindung'),
+                                        Text('Hutan Lindung', style: TextStyle(color: Colors.white),),
                                       ],
                                     ),
                                     Row(
@@ -361,12 +361,12 @@ class _LingkunganState extends State<Lingkungan> {
                                           height: 10,
                                           decoration: BoxDecoration(
                                             color: Colors
-                                                .black, // Warna untuk Papua Selatan
+                                                .grey, // Warna untuk Papua Selatan
                                             shape: BoxShape.circle,
                                           ),
                                         ),
                                         SizedBox(width: 10),
-                                        Text('Rumah warga'),
+                                        Text('Rumah warga', style: TextStyle(color: Colors.white),),
                                       ],
                                     ),
                                     Row(
@@ -380,7 +380,7 @@ class _LingkunganState extends State<Lingkungan> {
                                           ),
                                         ),
                                         SizedBox(width: 10),
-                                        Text('SDA'),
+                                        Text('SDA', style: TextStyle(color: Colors.white),),
                                       ],
                                     ),
                                   ],

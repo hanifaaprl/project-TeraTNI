@@ -56,14 +56,16 @@ class _HalamanMasukState extends State<HalamanMasuk> {
                                 style: TextStyle(
                                   fontSize: 27,
                                   fontWeight: FontWeight.bold,
-                                  color: isDarkMode ? Colors.white : Colors.black,
+                                  color: Colors.white,
+                                  //color: isDarkMode ? Colors.white : Colors.black,
                                 ),
                               ),
                               Text(
                             'Hello, welcome!',
                             style: TextStyle(
                               fontSize: 25,
-                              color: isDarkMode ? Colors.white : Colors.black,
+                              color: Colors.white70,
+                              //color: isDarkMode ? Colors.white : Colors.black,
                             ),
                           ),
                             ],
@@ -80,7 +82,8 @@ class _HalamanMasukState extends State<HalamanMasuk> {
               width: screenWidth, // Lebar sesuai layar
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: isDarkMode ? Colors.grey[800] : Colors.white,
+                color: secondaryColor,
+                //color: isDarkMode ? Colors.grey[800] : Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
@@ -102,7 +105,8 @@ class _HalamanMasukState extends State<HalamanMasuk> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? Colors.white : Colors.black,
+                        color: Colors.white,
+                        //color: isDarkMode ? Colors.white : Colors.black,
                       ),
                     ),
                   ),
@@ -162,7 +166,8 @@ class _HalamanMasukState extends State<HalamanMasuk> {
                         'Belum memiliki akun? ',
                         style: TextStyle(
                           fontSize: 14,
-                          color: isDarkMode ? Colors.white70 : Colors.black87,
+                          color: Colors.white70,
+                          //color: isDarkMode ? Colors.white70 : Colors.black87,
                         ),
                       ),
                       GestureDetector(
@@ -199,23 +204,30 @@ class _HalamanMasukState extends State<HalamanMasuk> {
           labelText,
           style: TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white70 : Colors.black87,
+            color: Colors.white70,
           ),
         ),
         SizedBox(height: 6),
         Container(
           height: 35,
           child: TextField(
-            style: TextStyle(fontSize: 14, color: isDarkMode ? Colors.white : Colors.black),
+            style: TextStyle(fontSize: 14, color: Colors.white), // Warna teks putih agar terlihat pada background secondaryColor
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: isDarkMode ? Colors.white : Colors.black),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Mengatur ketebalan garis pinggir
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Menambahkan garis putih untuk border normal
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Garis putih saat fokus
               ),
               filled: true,
-              fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
+              fillColor: secondaryColor, // Mengubah warna background menjadi secondaryColor
             ),
           ),
         ),
@@ -223,7 +235,8 @@ class _HalamanMasukState extends State<HalamanMasuk> {
     );
   }
 
-  Widget _buildPasswordField(String labelText, bool obscureText, Function(bool) toggleVisibility, bool isDarkMode) {
+
+    Widget _buildPasswordField(String labelText, bool obscureText, Function(bool) toggleVisibility, bool isDarkMode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -231,8 +244,7 @@ class _HalamanMasukState extends State<HalamanMasuk> {
           labelText,
           style: TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white70 : Colors.black87,
+            color: Colors.white70,
           ),
         ),
         SizedBox(height: 6),
@@ -240,20 +252,28 @@ class _HalamanMasukState extends State<HalamanMasuk> {
           height: 35,
           child: TextField(
             obscureText: obscureText,
-            style: TextStyle(fontSize: 14, color: isDarkMode ? Colors.white : Colors.black),
+            style: TextStyle(fontSize: 14, color: Colors.white), // Warna teks putih agar terlihat pada background secondaryColor
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: isDarkMode ? Colors.white : Colors.black),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Mengatur ketebalan garis pinggir
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Menambahkan garis putih untuk border normal
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white, width: 1.0), // Garis putih saat fokus
               ),
               filled: true,
-              fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
+              fillColor: secondaryColor, // Mengubah warna background menjadi secondaryColor
               suffixIcon: IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,
                   size: 20,
-                  color: isDarkMode ? Colors.white : Colors.black,
+                  color: Colors.white, // Warna icon agar terlihat jelas
                 ),
                 onPressed: () => toggleVisibility(!obscureText),
               ),

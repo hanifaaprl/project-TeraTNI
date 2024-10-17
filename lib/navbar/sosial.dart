@@ -63,7 +63,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 24,
-                          color: isDarkMode ? Colors.white : Colors.black87,
+                          color: Colors.white,
+                          //color: isDarkMode ? Colors.white : Colors.black87,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
@@ -75,7 +76,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: isDarkMode ? Colors.white : Colors.black87,
+                          color: Colors.white,
+                          //color: isDarkMode ? Colors.white : Colors.black87,
                         ),
                       ),
                     ],
@@ -169,8 +171,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                     ),
                                     hintText: "Cari ...",
                                     hintStyle: TextStyle(color: Colors.grey),
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 12),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide.none,
@@ -256,10 +258,10 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                               yValueMapper:
                                                   (ChartData sales, _) =>
                                                       sales.value,
-                                              color: primaryColor
-                                                  .withOpacity(
-                                                      0.5), // Warna area Partai A
-                                              borderColor: secondaryColor, // Warna batas area Partai A
+                                              color: primaryColor.withOpacity(
+                                                  0.5), // Warna area Partai A
+                                              borderColor:
+                                                  secondaryColor, // Warna batas area Partai A
                                               borderWidth: 2,
                                             ),
                                           ],
@@ -284,27 +286,31 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
                                   SizedBox(height: 10),
                                   Text(
                                     "Partai Politik",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.white70),
                                   ),
                                   SizedBox(height: 10),
                                   _buildSmallContainer('2'),
                                   SizedBox(height: 10),
                                   Text(
                                     "Pasar",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.white70),
                                   ),
                                   SizedBox(height: 10),
                                   _buildSmallContainer('50'),
                                   SizedBox(height: 10),
                                   Text(
                                     "Mall",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.white70),
                                   ),
                                   SizedBox(height: 10),
                                   _buildSmallContainer('5'),
@@ -322,7 +328,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => QuickCount()),
+                                  MaterialPageRoute(
+                                      builder: (context) => QuickCount()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
@@ -345,7 +352,6 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                           ),
                         ),
 
-                        // Container besar tambahan
                         Center(
                           child: Container(
                             width: 250,
@@ -364,14 +370,43 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(9.0),
-                              child: Text(
-                                'Perkembangan Ekonomi',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Perkembangan Ekonomi',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          10), // Jarak antara judul dan grafik
+                                  Expanded(
+                                    child: SfCartesianChart(
+                                      primaryXAxis: CategoryAxis(),
+                                      title: ChartTitle(text: 'Tahun'),
+                                      series: <ChartSeries>[
+                                        ColumnSeries<ChartData, String>(
+                                          dataSource: [
+                                            ChartData('2021', 50),
+                                            ChartData('2022', 70),
+                                            ChartData('2023', 90),
+                                            ChartData('2024', 80),
+                                          ],
+                                          xValueMapper: (ChartData data, _) =>
+                                              data.year,
+                                          yValueMapper: (ChartData data, _) =>
+                                              data.value,
+                                          color: Color.fromARGB(255, 90, 133, 110), // Ganti warna sesuai kebutuhan
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -464,7 +499,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FormSosialEkonomi(), // Halaman untuk menambah data
+                            builder: (context) =>
+                                FormSosialEkonomi(), // Halaman untuk menambah data
                           ),
                         );
                       },
@@ -481,7 +517,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditSosialEkonomi(), // Halaman untuk mengedit data
+                            builder: (context) =>
+                                EditSosialEkonomi(), // Halaman untuk mengedit data
                           ),
                         );
                       },
