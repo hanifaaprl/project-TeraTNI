@@ -113,8 +113,8 @@ class HalamanOTP extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
               side: BorderSide(
-                color: const Color.fromARGB(120, 0, 0, 0),
-                width: 0.7,
+                color: primaryColor, // Warna garis pinggir
+                width: 2.0, // Lebar garis pinggir
               ),
             ),
             elevation: 5,
@@ -162,8 +162,8 @@ class HalamanOTP extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
               side: BorderSide(
-                color: Color.fromARGB(129, 0, 0, 0),
-                width: 0.7,
+                color: primaryColor, // Warna garis pinggir
+                width: 2.0, // Lebar garis pinggir
               ),
             ),
             elevation: 5,

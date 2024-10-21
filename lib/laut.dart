@@ -7,14 +7,14 @@ class KekuatanLaut extends StatefulWidget {
 }
 
 class _KekuatanLautState extends State<KekuatanLaut> {
-  String? _selectedValue; 
+  String? _selectedValue;
 
-  final List<String> containerTexts = [
-    'Fregat : 1000',
-    'Korvet : 1000',
-    'Kapal Selam : 1000',
-    'Kapal Patroli : 1000',
-    'Kapal Ranjau : 1000'
+  final List<Map<String, String>> containerItems = [
+    {'image': 'assets/images/fre.png', 'text': '7  Fregat'},
+    {'image': 'assets/images/kor.png', 'text': '24  Korvet'},
+    {'image': 'assets/images/sel.png', 'text': '5  Kapal Selam'},
+    {'image': 'assets/images/pat.png', 'text': '179  Kapal Patroli'},
+    {'image': 'assets/images/ran.png', 'text': '10  Kapal Ranjau'},
   ];
 
   @override
@@ -80,7 +80,7 @@ class _KekuatanLautState extends State<KekuatanLaut> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _selectedValue,
-                        items: <String>['Papua Barat', 'Papua Tengah', 'Papua Selatan']
+                        items: <String>['Kodam III/Siliwangi', 'kodam IV/Diponegoro', 'Kodam V/Brawijaya','Kodam XVII/Cenderawasih']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -110,55 +110,50 @@ class _KekuatanLautState extends State<KekuatanLaut> {
                       ),
                     ),
                   ),
-                  
-                  // Gambar
-                  Center(
-                      child: Image.asset(
-                        'assets/images/laut.png',
-                        height: 300, // Atur tinggi gambar
-                        width: 300, // Atur lebar gambar
-                      ),
-                    ),
-                    Text(
-                    'Perwira $_selectedValue',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
                   SizedBox(height: 20),
-                  Wrap(
-                    spacing: 10, // Jarak horizontal antar container
-                    runSpacing: 10, // Jarak vertikal antar container
-                    children: List.generate(containerTexts.length, (index) {
-                      return Container(
-                        height: 50,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
+
+                  // Daftar card dengan gambar di kiri dan teks di kanan
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(), // Agar bisa di-scroll dalam SingleChildScrollView
+                    itemCount: containerItems.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        color: Color(0xFF1E1E1E),
+                        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
                         ),
-                        child: Center(
-                          child: Text(
-                            containerTexts[index],
-                            style: TextStyle(
-                              color: Colors.white, // Warna teks
-                              fontSize: 14, // Ukuran teks
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              // Gambar di kiri
+                              Image.asset(
+                                containerItems[index]['image']!,
+                                width: 70,
+                                height: 70,
+                              ),
+                              SizedBox(width: 10),
+                              // Teks di kanan
+                              Expanded(
+                                child: Text(
+                                  containerItems[index]['text']!,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white, // Warna teks dalam card
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );
-                    }),
+                    },
                   ),
+
                   SizedBox(height: 30),
                 ],
               ),

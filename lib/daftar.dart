@@ -90,7 +90,7 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: secondaryColor,
+                    color: backgroundColor,
                     //color: isDarkMode ? Colors.grey[800] : Colors.white,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20)),
@@ -247,7 +247,7 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
                 borderSide: BorderSide(color: Colors.white, width: 1.0), // Garis putih saat fokus
               ),
               filled: true,
-              fillColor: secondaryColor, // Mengubah warna background menjadi secondaryColor
+              fillColor: backgroundColor, // Mengubah warna background menjadi secondaryColor
             ),
           ),
         ),
@@ -287,7 +287,7 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
                 borderSide: BorderSide(color: Colors.white, width: 1.0), // Garis putih saat fokus
               ),
               filled: true,
-              fillColor: secondaryColor, // Mengubah warna background menjadi secondaryColor
+              fillColor: backgroundColor, // Mengubah warna background menjadi secondaryColor
               suffixIcon: IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,

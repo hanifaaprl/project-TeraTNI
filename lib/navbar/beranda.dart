@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _selectedValue = 'Papua'; // Nilai default dropdown
+  String _selectedValue = 'Kodam III/Siliwangi'; // Nilai default dropdown
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: _selectedValue,
-                      items: <String>['Papua', 'Maluku', 'Ternate']
+                      items: <String>['Kodam III/Siliwangi', 'kodam IV/Diponegoro', 'Kodam V/Brawijaya','Kodam XVII/Cenderawasih']
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

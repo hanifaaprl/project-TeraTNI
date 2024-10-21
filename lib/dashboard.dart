@@ -19,7 +19,7 @@ class _HalamanDashboardState extends State<HalamanDashboard> {
   Widget build(BuildContext context) {
     return FloatingNavBar(
         resizeToAvoidBottomInset: false,
-        color: Color(0xFF313131),
+        color: thirdColor,
         selectedIconColor: primaryColor,
         unselectedIconColor: Colors.white.withOpacity(0.6),
         items: [

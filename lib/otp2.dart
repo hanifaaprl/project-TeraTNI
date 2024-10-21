@@ -166,15 +166,15 @@ class _HalamanVerifikasiState extends State<HalamanVerifikasi> {
               contentPadding: EdgeInsets.symmetric(vertical: 15),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.white, width: 1.0), // Mengatur ketebalan garis pinggir
+                borderSide: BorderSide(color: primaryColor, width: 1.0), // Mengatur ketebalan garis pinggir
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.white, width: 1.0), // Menambahkan garis putih untuk border normal
+                borderSide: BorderSide(color: primaryColor, width: 1.0), // Menambahkan garis putih untuk border normal
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.white, width: 1.0), // Garis putih saat fokus
+                borderSide: BorderSide(color: primaryColor, width: 1.0), // Garis putih saat fokus
               ),
               filled: true,
               fillColor: secondaryColor,

@@ -64,6 +64,32 @@ class _QuickCountState extends State<QuickCount> {
                   ],
                 ),
                 SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Tambahkan kontainer TPS baru
+                      setState(() {
+                        tpsContainers.add(_buildTPSContainer(isDarkMode));
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: primaryColor,
+                      padding: EdgeInsets.symmetric(horizontal: 70, vertical: 5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      'Send',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
 
                 // Kontainer utama untuk formulir TPS
                 _buildTPSContainer(isDarkMode),
@@ -204,17 +230,22 @@ Widget _buildTextField(String labelText, bool isDarkMode) {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: primaryColor, width: 1.0), // Mengatur ketebalan garis pinggir
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: primaryColor, width: 1.0), // Menambahkan garis putih untuk border normal
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: primaryColor, width: 1.0), // Garis putih saat fokus
-              ),
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                  color: primaryColor,
+                  width: 1.0), // Mengatur ketebalan garis pinggir
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                  color: primaryColor,
+                  width: 1.0), // Menambahkan garis putih untuk border normal
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                  color: primaryColor, width: 1.0), // Garis putih saat fokus
+            ),
             filled: true,
             fillColor: secondaryColor,
           ),
