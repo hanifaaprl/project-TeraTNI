@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:projek1/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dashboard.dart';
 import 'daftar.dart';
 import 'colors.dart';
@@ -18,7 +19,6 @@ class _HalamanMasukState extends State<HalamanMasuk> {
   bool _isLoading = false;
   final AuthService _authService = AuthService();
 
-  // Fungsi untuk login
   void _login() async {
     // Validasi input username dan password
     if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
@@ -42,9 +42,18 @@ class _HalamanMasukState extends State<HalamanMasuk> {
       _isLoading = false;
     });
 
-    // Menampilkan hasil login
-    if (result['success']) {
-      // Jika login sukses, arahkan ke dashboard
+    // Cek statusCode dari respons
+    if (result['statusCode'] == 201) {
+      // Ganti pengecekan success dengan statusCode 201
+      final token = result['data']['token'];
+      final refreshToken = result['data']['refreshToken'];
+
+      // Simpan token menggunakan SharedPreferences (atau metode penyimpanan lain)
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', token);
+      await prefs.setString('refreshToken', refreshToken);
+
+      // Arahkan ke halaman dashboard setelah login berhasil
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HalamanDashboard()),

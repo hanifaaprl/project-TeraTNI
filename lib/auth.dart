@@ -20,21 +20,30 @@ class AuthService {
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
-      if (response.statusCode == 200) {
+      // Periksa apakah status code 200 (OK) atau 201 (Created)
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> data = json.decode(response.body);
+
+        // Log jika token tersedia
+        if (data['data'] != null && data['data']['token'] != null) {
+          print('Token: ${data['data']['token']}');
+        }
 
         return {
           'success': true,
-          'message': data['message'] ?? 'Login berhasil',
-          'token': data['token'] ?? '',
+          'message': 'Login berhasil',
+          'token': data['data']['token'] ?? '',
         };
       } else {
+        // Jika status code tidak 200/201, maka dianggap gagal
+        final Map<String, dynamic> errorData = json.decode(response.body);
         return {
           'success': false,
-          'message': json.decode(response.body)['message'] ?? 'Login gagal',
+          'message': errorData['message'] ?? 'Login gagal',
         };
       }
     } catch (e) {
+      print('Error during login: $e');
       return {
         'success': false,
         'message': 'Terjadi kesalahan. Coba lagi nanti.',
