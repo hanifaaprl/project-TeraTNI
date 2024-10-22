@@ -27,6 +27,9 @@ class _HalamanMasukState extends State<HalamanMasuk> {
       );
       return;
     }
+    //ada aktif : dashboard
+    //ada tidak aktif : login
+    //tidak ada : login
 
     setState(() {
       _isLoading = true;
@@ -41,25 +44,30 @@ class _HalamanMasukState extends State<HalamanMasuk> {
     setState(() {
       _isLoading = false;
     });
+    // Cek apakah result berisi 'success'
+    if (result['success']) {
+      // Ambil token dan refreshToken dari hasil login
+      final token = result['token'];
+      final refreshToken = result['refreshToken'];
 
-    // Cek statusCode dari respons
-    if (result['statusCode'] == 201) {
-      // Ganti pengecekan success dengan statusCode 201
-      final token = result['data']['token'];
-      final refreshToken = result['data']['refreshToken'];
-
-      // Simpan token menggunakan SharedPreferences (atau metode penyimpanan lain)
+      // Simpan token menggunakan SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
       await prefs.setString('refreshToken', refreshToken);
 
+      // Debugging: Print token
+      print("Login berhasil, token: $token");
+      print("Login berhasil, refreshToken: $refreshToken");
+
       // Arahkan ke halaman dashboard setelah login berhasil
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HalamanDashboard()),
       );
     } else {
       // Jika login gagal, tampilkan pesan kesalahan
+      print(
+          "Login gagal: ${result['message']}"); // Debugging: Print pesan kesalahan
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result['message'] ?? 'Login gagal.')),
       );

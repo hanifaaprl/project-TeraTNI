@@ -33,6 +33,7 @@ class AuthService {
           'success': true,
           'message': 'Login berhasil',
           'token': data['data']['token'] ?? '',
+          'refreshToken': data['data']['refreshToken'] ?? '',
         };
       } else {
         // Jika status code tidak 200/201, maka dianggap gagal
