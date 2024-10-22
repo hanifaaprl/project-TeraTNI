@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projek1/masuk.dart';  // Halaman masuk
-import 'daftar.dart';  // Halaman daftar
-import 'colors.dart';  // Warna yang digunakan
+import 'package:projek1/masuk.dart';
+import 'colors.dart';  
 
 class HalamanUtama extends StatefulWidget {
   @override

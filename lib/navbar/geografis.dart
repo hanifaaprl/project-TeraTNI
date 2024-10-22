@@ -1,4 +1,4 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
+//import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/navbar/editgeo.dart';
@@ -22,8 +22,8 @@ class _GeografisState extends State<Geografis> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
+    // final theme = AdaptiveTheme.of(context);
+    // final isDarkMode = theme.mode.isDark;
     return Scaffold(
       backgroundColor: backgroundColor,
       //backgroundColor: isDarkMode ? Colors.black : Colors.white,

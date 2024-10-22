@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projek1/addLaporan.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/notif.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
+//import 'package:adaptive_theme/adaptive_theme.dart';
 
 class EventPage extends StatefulWidget {
   @override
@@ -19,8 +19,8 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
+    // final theme = AdaptiveTheme.of(context);
+    // final isDarkMode = theme.mode.isDark;
     return Scaffold(
       backgroundColor: backgroundColor,
       //backgroundColor: isDarkMode ? Colors.black : Colors.white,

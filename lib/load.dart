@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projek1/dashboard.dart';
-import 'package:adaptive_theme/adaptive_theme.dart'; // Tambahkan package adaptive_theme
+//import 'package:adaptive_theme/adaptive_theme.dart'; 
 import 'colors.dart';
 
 class HalamanVerifikasiBerhasil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Mendapatkan tema saat ini
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
+    // final theme = AdaptiveTheme.of(context);
+    // final isDarkMode = theme.mode.isDark;
 
     return Scaffold(
       //backgroundColor: isDarkMode ? Colors.black : Colors.white,

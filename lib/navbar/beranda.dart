@@ -10,7 +10,7 @@ import 'demografis.dart';
 import 'geografis.dart';
 import 'lingkungan.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
+//import 'package:adaptive_theme/adaptive_theme.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
+    //final theme = AdaptiveTheme.of(context);
+    //final isDarkMode = theme.mode.isDark;
 
     var data = [
       ChartData('Tam', 3000),

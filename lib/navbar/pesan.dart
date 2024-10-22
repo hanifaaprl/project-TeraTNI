@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/notif.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
+//import 'package:adaptive_theme/adaptive_theme.dart';
 
 class PesanPage extends StatelessWidget {
   @override

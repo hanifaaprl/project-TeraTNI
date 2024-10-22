@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/masuk.dart';
-import 'package:projek1/onboarding.dart';
 import 'package:projek1/setProfil.dart';
 import 'pengaturan.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
+//import 'package:adaptive_theme/adaptive_theme.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
+    // final theme = AdaptiveTheme.of(context);
+    // final isDarkMode = theme.mode.isDark;
 
     // Tentukan warna berdasarkan mode gelap atau terang
     //final backgroundColor = isDarkMode ? Colors.grey[900] : Colors.white;

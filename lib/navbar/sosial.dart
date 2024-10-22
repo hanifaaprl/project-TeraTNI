@@ -4,7 +4,7 @@ import 'package:projek1/navbar/quick.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'formsos.dart';
 import 'editsos.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
+//import 'package:adaptive_theme/adaptive_theme.dart';
 
 class SosialEkonomi extends StatefulWidget {
   @override
@@ -17,8 +17,8 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
+    // final theme = AdaptiveTheme.of(context);
+    // final isDarkMode = theme.mode.isDark;
 
     final List<ChartData> data1 = [
       ChartData('Jan', 35),
