@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  final String apiUrl = "https://teratni.pindadtest.com"; 
+  final String apiUrl = "https://tera-tni-api.onrender.com/v1/auth/login";
 
   // Fungsi untuk login
   Future<Map<String, dynamic>> login(String username, String password) async {
@@ -17,19 +17,21 @@ class AuthService {
         }),
       );
 
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
       if (response.statusCode == 200) {
-        // Jika login berhasil
         final Map<String, dynamic> data = json.decode(response.body);
+
         return {
           'success': true,
-          'message': data['message'],
-          'token': data['token'],
+          'message': data['message'] ?? 'Login berhasil',
+          'token': data['token'] ?? '',
         };
       } else {
-        // Jika login gagal
         return {
           'success': false,
-          'message': json.decode(response.body)['message'],
+          'message': json.decode(response.body)['message'] ?? 'Login gagal',
         };
       }
     } catch (e) {

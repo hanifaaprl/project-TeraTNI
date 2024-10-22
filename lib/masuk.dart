@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:projek1/auth.dart'; // Import AuthService
-import 'dashboard.dart'; // Import halaman Dashboard
-import 'daftar.dart'; // Import halaman Daftar
-import 'colors.dart'; // Import file warna
+//import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:projek1/auth.dart';
+import 'dashboard.dart';
+import 'daftar.dart';
+import 'colors.dart';
 
 class HalamanMasuk extends StatefulWidget {
   @override
@@ -12,22 +12,30 @@ class HalamanMasuk extends StatefulWidget {
 
 class _HalamanMasukState extends State<HalamanMasuk> {
   bool _obscurePassword = true;
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _isLoading = false;
   final AuthService _authService = AuthService();
 
   // Fungsi untuk login
   void _login() async {
+    // Validasi input username dan password
+    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Username dan password tidak boleh kosong')),
+      );
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
 
     // Memanggil service login
     final result = await _authService.login(
-      _usernameController.text,
-      _passwordController.text,
+      _usernameController.text.trim(),
+      _passwordController.text.trim(),
     );
 
     setState(() {
@@ -44,15 +52,13 @@ class _HalamanMasukState extends State<HalamanMasuk> {
     } else {
       // Jika login gagal, tampilkan pesan kesalahan
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result['message'])),
+        SnackBar(content: Text(result['message'] ?? 'Login gagal.')),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = AdaptiveTheme.of(context);
-    final isDarkMode = theme.mode.isDark;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -62,7 +68,7 @@ class _HalamanMasukState extends State<HalamanMasuk> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/t5.jpg'), // Gambar background
+                image: AssetImage('assets/images/t5.jpg'),
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
               ),
@@ -112,7 +118,7 @@ class _HalamanMasukState extends State<HalamanMasuk> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter, // Kontainer di bagian bawah
+            alignment: Alignment.bottomCenter,
             child: Container(
               width: screenWidth,
               padding: const EdgeInsets.all(16.0),
@@ -167,13 +173,14 @@ class _HalamanMasukState extends State<HalamanMasuk> {
                   ),
                   SizedBox(height: 10),
                   _isLoading
-                      ? Center(child: CircularProgressIndicator()) // Loading ketika proses login
+                      ? Center(child: CircularProgressIndicator())
                       : ElevatedButton(
                           onPressed: _login,
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: primaryColor,
-                            padding: EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 110, vertical: 10),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -201,7 +208,8 @@ class _HalamanMasukState extends State<HalamanMasuk> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => HalamanDaftar()),
+                            MaterialPageRoute(
+                                builder: (context) => HalamanDaftar()),
                           );
                         },
                         child: Text(
@@ -223,7 +231,8 @@ class _HalamanMasukState extends State<HalamanMasuk> {
     );
   }
 
-  Widget _buildTextField(String labelText, TextEditingController controller, bool obscureText) {
+  Widget _buildTextField(
+      String labelText, TextEditingController controller, bool obscureText) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -264,7 +273,8 @@ class _HalamanMasukState extends State<HalamanMasuk> {
     );
   }
 
-  Widget _buildPasswordField(String labelText, TextEditingController controller) {
+  Widget _buildPasswordField(
+      String labelText, TextEditingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
