@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
+import 'package:projek1/navbar/hitung.dart';
 import 'package:projek1/navbar/quick.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'formsos.dart';
@@ -329,7 +330,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => QuickCount()),
+                                      builder: (context) => HitungCepatPage()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
