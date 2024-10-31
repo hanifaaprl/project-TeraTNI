@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:projek1/colors.dart';
+import 'package:projek1/navbar/pilkada.dart';
 
 class HitungCepatPage extends StatefulWidget {
   @override
@@ -71,49 +72,61 @@ class _HitungCepatPageState extends State<HitungCepatPage> {
                       itemCount: dataPemilu.length,
                       itemBuilder: (context, index) {
                         final item = dataPemilu[index];
-                        return Card(
-                          color: Colors.grey[900],
-                          margin: EdgeInsets.symmetric(vertical: 8),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item["name"] ?? "Nama tidak tersedia",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        return GestureDetector(
+                          onTap: () {
+                            // Navigasi ke halaman detail
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Pilkada(
                                 ),
-                                SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    Icon(Icons.calendar_today, color: Colors.white),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      "${formatDate(item["beginDate"])} - ${formatDate(item["endDate"])}",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: item["periodStatus"] == "ongoing" ? Colors.green : Colors.grey,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    item["periodStatus"] == "ongoing" ? "Sedang berlangsung" : "Selesai",
+                              ),
+                            );
+                          },
+                          child: Card(
+                            color: Colors.grey[900],
+                            margin: EdgeInsets.symmetric(vertical: 8),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item["name"] ?? "Nama tidak tersedia",
                                     style: TextStyle(
                                       color: Colors.white,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.calendar_today, color: Colors.white),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        "${formatDate(item["beginDate"])} - ${formatDate(item["endDate"])}",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: item["periodStatus"] == "ongoing" ? Colors.green : Colors.grey,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      item["periodStatus"] == "ongoing" ? "Sedang berlangsung" : "Selesai",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
