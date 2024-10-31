@@ -27,9 +27,6 @@ class _HalamanMasukState extends State<HalamanMasuk> {
       );
       return;
     }
-    //ada aktif : dashboard
-    //ada tidak aktif : login
-    //tidak ada : login
 
     setState(() {
       _isLoading = true;
@@ -44,6 +41,7 @@ class _HalamanMasukState extends State<HalamanMasuk> {
     setState(() {
       _isLoading = false;
     });
+
     // Cek apakah result berisi 'success'
     if (result['success']) {
       // Ambil token dan refreshToken dari hasil login
@@ -66,8 +64,7 @@ class _HalamanMasukState extends State<HalamanMasuk> {
       );
     } else {
       // Jika login gagal, tampilkan pesan kesalahan
-      print(
-          "Login gagal: ${result['message']}"); // Debugging: Print pesan kesalahan
+      print("Login gagal: ${result['message']}"); // Debugging: Print pesan kesalahan
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result['message'] ?? 'Login gagal.')),
       );

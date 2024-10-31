@@ -93,7 +93,7 @@ class _NotifState extends State<Notif> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
           ),

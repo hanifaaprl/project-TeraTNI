@@ -129,7 +129,7 @@ class _GeografisState extends State<Geografis> {
                               child: Container(
                                 height: 30,
                                 decoration: BoxDecoration(
-                                  color: primaryColor,
+                                  color: secondaryColor,
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(

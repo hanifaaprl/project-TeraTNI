@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
+import 'package:http/http.dart' as http;
 
 class QuickCount extends StatefulWidget {
   @override
@@ -8,8 +10,55 @@ class QuickCount extends StatefulWidget {
 }
 
 class _QuickCountState extends State<QuickCount> {
-  // Daftar untuk menyimpan kontainer TPS baru
-  List<Widget> tpsContainers = [];
+  List<Map<String, dynamic>> tpsData = []; // Data TPS yang akan dikirim ke API
+  List<Widget> tpsContainers = []; // Daftar untuk menyimpan kontainer TPS baru
+
+  // Fungsi untuk mengirim data ke API
+  Future<void> sendDataToApi() async {
+    final url = Uri.parse(
+        'https://tera-tni-api.onrender.com/v1/quick-counts/transactions'); // Ganti dengan URL API Anda
+
+    final requestBody = {
+      "selectionId": 2,
+      "transactions": tpsData,
+    };
+
+    try {
+      print("Mengirim data: ${jsonEncode(requestBody)}");
+
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvcmVhbmciLCJzdWIiOjYsImlhdCI6MTczMDM0MzE5NywiZXhwIjoxNzMwNDI5NTk3fQ.mSY7GMfEohf3KBHuE7-aoL97CIRWA6FkBdTMD3ibbAM",
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        print("Data berhasil dikirim: ${response.body}");
+      } else {
+        print("Gagal mengirim data: ${response.statusCode}");
+        print(
+            "Pesan error: ${response.body}"); // Menampilkan pesan error dari server
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  // Fungsi untuk menambahkan data TPS ke dalam `tpsData`
+  void addTPSData(String votingSite, String location, Map<String, String> suara) {
+    setState(() {
+      tpsData.add({
+        "votingSite": votingSite,
+        "location": location,
+        "metadata": suara.entries.map((e) {
+          return {"key": e.key, "value": e.value};
+        }).toList(),
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +115,14 @@ class _QuickCountState extends State<QuickCount> {
                 SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Tambahkan kontainer TPS baru
-                      setState(() {
-                        tpsContainers.add(_buildTPSContainer(isDarkMode));
-                      });
+                    onPressed: () async {
+                      await sendDataToApi(); // Mengirim data TPS ke API
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 70, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -105,7 +152,6 @@ class _QuickCountState extends State<QuickCount> {
                 Center(
                   child: Column(
                     children: [
-                      // Tombol Hapus
                       IconButton(
                         icon: Icon(
                           Icons.delete,
@@ -113,19 +159,15 @@ class _QuickCountState extends State<QuickCount> {
                           size: 30,
                         ),
                         onPressed: () {
-                          // Logika ketika tombol Hapus ditekan
-                          // Hapus semua kontainer TPS
                           setState(() {
-                            tpsContainers.clear();
+                            tpsData.clear(); // Hapus semua data TPS
+                            tpsContainers.clear(); // Hapus semua kontainer TPS
                           });
                         },
                       ),
                       SizedBox(height: 10),
-
-                      // Tombol Tambah
                       ElevatedButton(
                         onPressed: () {
-                          // Tambahkan kontainer TPS baru
                           setState(() {
                             tpsContainers.add(_buildTPSContainer(isDarkMode));
                           });
@@ -160,12 +202,20 @@ class _QuickCountState extends State<QuickCount> {
 
   // Widget untuk membangun kontainer TPS
   Widget _buildTPSContainer(bool isDarkMode) {
+    final votingSiteController = TextEditingController();
+    final locationController = TextEditingController();
+    final suaraControllers = [
+      TextEditingController(), // Kandidat 1
+      TextEditingController(), // Kandidat 2
+      TextEditingController(), // Suara Tidak Sah
+      TextEditingController(), // Total DPT
+    ];
+
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 10), // Beri jarak antar kontainer
+      margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: secondaryColor,
-        //color: isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -181,76 +231,78 @@ class _QuickCountState extends State<QuickCount> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 10),
-            _buildTextField('Nama TPS', isDarkMode),
-            SizedBox(height: 10),
-            _buildTextField('Lokasi TPS', isDarkMode),
-            SizedBox(height: 10),
-            _buildTextField('Nomor Telepon', isDarkMode),
-            SizedBox(height: 10),
-            _buildTextField('Suara Kandidat 1', isDarkMode),
-            SizedBox(height: 10),
-            _buildTextField('Suara Kandidat 2', isDarkMode),
-            SizedBox(height: 10),
-            _buildTextField('Suara Kandidat 3', isDarkMode),
-            SizedBox(height: 10),
-            _buildTextField('Suara Tidak Sah', isDarkMode),
-            SizedBox(height: 10),
-            _buildTextField('Total DPT', isDarkMode),
+            _buildTextField('Nama TPS', votingSiteController, isDarkMode),
+            _buildTextField('Lokasi TPS', locationController, isDarkMode),
+            _buildTextField(
+                'Suara Kandidat 1', suaraControllers[0], isDarkMode),
+            _buildTextField(
+                'Suara Kandidat 2', suaraControllers[1], isDarkMode),
+            _buildTextField('Suara Tidak Sah', suaraControllers[2], isDarkMode),
+            _buildTextField('Total DPT', suaraControllers[3], isDarkMode),
+            ElevatedButton(
+              onPressed: () {
+                final suara = {
+                  "suara_1": suaraControllers[0].text,
+                  "suara_2": suaraControllers[1].text,
+                  "suara_tidak_sah": suaraControllers[2].text,
+                  "total_dpt": suaraControllers[3].text,
+                };
+
+                addTPSData(votingSiteController.text, locationController.text, suara);
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: primaryColor,
+              ),
+              child: Text('Simpan TPS'),
+            ),
           ],
         ),
       ),
     );
   }
-}
 
-// Widget untuk TextField yang digunakan pada Formulir
-Widget _buildTextField(String labelText, bool isDarkMode) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        labelText,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.white70,
-          //color: isDarkMode ? Colors.white70 : Colors.black87,
-        ),
-      ),
-      SizedBox(height: 8),
-      Container(
-        height: 45,
-        child: TextField(
+  // Widget untuk TextField yang digunakan pada Formulir
+  Widget _buildTextField(
+      String labelText, TextEditingController controller, bool isDarkMode) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
           style: TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-            //color: isDarkMode ? Colors.white : Colors.black,
-          ),
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                  color: primaryColor,
-                  width: 1.0), // Mengatur ketebalan garis pinggir
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                  color: primaryColor,
-                  width: 1.0), // Menambahkan garis putih untuk border normal
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                  color: primaryColor, width: 1.0), // Garis putih saat fokus
-            ),
-            filled: true,
-            fillColor: secondaryColor,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white70,
           ),
         ),
-      ),
-    ],
-  );
+        SizedBox(height: 8),
+        Container(
+          height: 45,
+          child: TextField(
+            controller: controller,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+            ),
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: primaryColor, width: 1.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: Colors.white54, width: 1.0),
+              ),
+              filled: true,
+              fillColor: secondaryColor,
+            ),
+          ),
+        ),
+        SizedBox(height: 12),
+      ],
+    );
+  }
 }
