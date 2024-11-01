@@ -2,26 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:projek1/colors.dart';
+import 'package:projek1/navbar/quick.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Pilkada extends StatefulWidget {
+  final int id; // Tambahkan parameter id
+
+  const Pilkada({Key? key, required this.id}) : super(key: key);
+
   @override
   _PilkadaState createState() => _PilkadaState();
 }
 
 class _PilkadaState extends State<Pilkada> {
   List<dynamic> quickCountData = [];
-  DateTime endDate = DateTime(2024, 12, 26); // Sesuaikan dengan tanggal akhir periode
+  
+  DateTime endDate = DateTime(2024, 12, 26); // Adjust according to your end date
   bool isLoading = true;
+  bool isLoadingHeader = true;
 
   @override
   void initState() {
     super.initState();
-    fetchQuickCountData();
+    fetchQuickCountData(widget.id); // Call API with the id received
   }
 
-  Future<void> fetchQuickCountData() async {
-    final url = 'https://tera-tni-api.onrender.com/v1/quick-counts/periods/3';
-    final response = await http.get(Uri.parse(url));
+  Future<void> fetchQuickCountData(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    final response = await http.get(
+      Uri.parse('https://tera-tni-api.onrender.com/v1/quick-counts/selections/selection-descendants/by-period/$id'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    final response1 = await http.get(
+      Uri.parse('https://tera-tni-api.onrender.com/v1/quick-counts/periods/$id'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     if (response.statusCode == 200) {
       setState(() {
@@ -31,6 +53,16 @@ class _PilkadaState extends State<Pilkada> {
     } else {
       setState(() {
         isLoading = false;
+      });
+    }
+    if (response1.statusCode == 200) {
+      setState(() {
+        final Map<String, dynamic> data = json.decode(response1.body);
+        print(data);
+      });
+    } else {
+      setState(() {
+        isLoadingHeader = false;
       });
     }
   }
@@ -45,14 +77,15 @@ class _PilkadaState extends State<Pilkada> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pengumpulan Hitung Cepat"),
-        backgroundColor: Colors.black,
+        title: Text("Pengumpulan Hitung Cepat", style: TextStyle(color: Colors.white)),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: backgroundColor,
       ),
+      backgroundColor: backgroundColor,
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                // Bagian Status dan Hitung Mundur
                 Container(
                   margin: EdgeInsets.all(10),
                   padding: EdgeInsets.all(15),
@@ -81,7 +114,7 @@ class _PilkadaState extends State<Pilkada> {
                         ),
                       ),
                       Text(
-                        "tersisa untuk Testing 2024",
+                        "tersisa",
                         style: TextStyle(
                           color: Colors.grey[400],
                           fontSize: 16,
@@ -98,7 +131,6 @@ class _PilkadaState extends State<Pilkada> {
                     ],
                   ),
                 ),
-                // Bagian Pengumpulan Hitung Cepat
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
@@ -119,42 +151,25 @@ class _PilkadaState extends State<Pilkada> {
                             itemCount: quickCountData.length,
                             itemBuilder: (context, index) {
                               final item = quickCountData[index];
-                              final lastUpdated = DateFormat("dd MMM yyyy HH:mm")
-                                  .format(DateTime.parse(item['lastUpdated'] ?? DateTime.now().toString()));
-
                               return Card(
                                 color: Colors.grey[900],
-                                margin: EdgeInsets.only(bottom: 10),
                                 child: ListTile(
                                   title: Text(
-                                    item['title'] ?? '',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    item['name'] ?? "Nama tidak tersedia",
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  subtitle: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "${item['candidates']} kandidat",
-                                        style: TextStyle(color: Colors.grey[400]),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        "Terakhir diperbarui: $lastUpdated",
-                                        style: TextStyle(
-                                          color: index == 0
-                                              ? Colors.orangeAccent
-                                              : Colors.greenAccent,
-                                        ),
-                                      ),
-                                    ],
+                                  subtitle: Text(
+                                    "Status: ${item['status']}",
+                                    style: TextStyle(color: Colors.grey),
                                   ),
-                                  trailing: Icon(Icons.arrow_forward, color: Colors.grey),
                                   onTap: () {
-                                    // Aksi ketika card diklik
+                                    // Navigate to a new page with item id
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => QuickCount(),
+                                      ),
+                                    );
                                   },
                                 ),
                               );
@@ -167,7 +182,6 @@ class _PilkadaState extends State<Pilkada> {
                 ),
               ],
             ),
-      backgroundColor: Colors.black,
     );
   }
 }

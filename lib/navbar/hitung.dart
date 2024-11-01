@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:projek1/colors.dart';
 import 'package:projek1/navbar/pilkada.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HitungCepatPage extends StatefulWidget {
   @override
@@ -22,10 +22,12 @@ class _HitungCepatPageState extends State<HitungCepatPage> {
 
   Future<void> fetchData() async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
       final response = await http.get(
         Uri.parse('https://tera-tni-api.onrender.com/v1/quick-counts/periods'),
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvcmVhbmciLCJzdWIiOjYsImlhdCI6MTczMDM1Mzk4MywiZXhwIjoxNzMwNDQwMzgzfQ.raFQOxX8y4Ne7S67cLJz01-LNXXJh_JYeqxRp5qmWEo', // Ganti dengan token yang benar jika diperlukan
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -74,12 +76,11 @@ class _HitungCepatPageState extends State<HitungCepatPage> {
                         final item = dataPemilu[index];
                         return GestureDetector(
                           onTap: () {
-                            // Navigasi ke halaman detail
+                            // Navigasi ke halaman detail dengan id dari item yang dipilih
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Pilkada(
-                                ),
+                                builder: (context) => Pilkada(id: item["id"]),
                               ),
                             );
                           },
@@ -102,7 +103,8 @@ class _HitungCepatPageState extends State<HitungCepatPage> {
                                   SizedBox(height: 8),
                                   Row(
                                     children: [
-                                      Icon(Icons.calendar_today, color: Colors.white),
+                                      Icon(Icons.calendar_today,
+                                          color: Colors.white),
                                       SizedBox(width: 8),
                                       Text(
                                         "${formatDate(item["beginDate"])} - ${formatDate(item["endDate"])}",
@@ -112,13 +114,18 @@ class _HitungCepatPageState extends State<HitungCepatPage> {
                                   ),
                                   SizedBox(height: 8),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
-                                      color: item["periodStatus"] == "ongoing" ? Colors.green : Colors.grey,
+                                      color: item["periodStatus"] == "ongoing"
+                                          ? Colors.green
+                                          : Colors.grey,
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(
-                                      item["periodStatus"] == "ongoing" ? "Sedang berlangsung" : "Selesai",
+                                      item["periodStatus"] == "ongoing"
+                                          ? "Sedang berlangsung"
+                                          : "Selesai",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -146,7 +153,18 @@ class _HitungCepatPageState extends State<HitungCepatPage> {
 
   String _convertMonth(int month) {
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des"
     ];
     return months[month - 1];
   }
