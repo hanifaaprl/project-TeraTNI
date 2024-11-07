@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/navbar/quick.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,8 +16,9 @@ class Pilkada extends StatefulWidget {
 
 class _PilkadaState extends State<Pilkada> {
   List<dynamic> quickCountData = [];
-  
-  DateTime endDate = DateTime(2024, 12, 26); // Adjust according to your end date
+
+  DateTime endDate =
+      DateTime(2024, 12, 26); // Adjust according to your end date
   bool isLoading = true;
   bool isLoadingHeader = true;
 
@@ -32,14 +32,16 @@ class _PilkadaState extends State<Pilkada> {
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     final response = await http.get(
-      Uri.parse('https://tera-tni-api.onrender.com/v1/quick-counts/selections/selection-descendants/by-period/$id'),
+      Uri.parse(
+          'https://tera-tni-api.onrender.com/v1/quick-counts/selections/selection-descendants/by-period/$id'),
       headers: {
         'Authorization': 'Bearer $token',
       },
     );
 
     final response1 = await http.get(
-      Uri.parse('https://tera-tni-api.onrender.com/v1/quick-counts/periods/$id'),
+      Uri.parse(
+          'https://tera-tni-api.onrender.com/v1/quick-counts/periods/$id'),
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -77,7 +79,8 @@ class _PilkadaState extends State<Pilkada> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pengumpulan Hitung Cepat", style: TextStyle(color: Colors.white)),
+        title: Text("Pengumpulan Hitung Cepat",
+            style: TextStyle(color: Colors.white)),
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: backgroundColor,
       ),
@@ -133,41 +136,82 @@ class _PilkadaState extends State<Pilkada> {
                 ),
                 Expanded(
                   child: Container(
+                    //color: Colors.black,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Pengumpulan Hitung Cepat",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Text(
+                            "Pengumpulan Hitung Cepat",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        SizedBox(height: 10),
                         Expanded(
                           child: ListView.builder(
                             itemCount: quickCountData.length,
                             itemBuilder: (context, index) {
                               final item = quickCountData[index];
+                              final candidateName =
+                                  item['name'] ?? "Nama tidak tersedia";
+                              final status =
+                                  item['status'] ?? "Status tidak tersedia";
+                              final timestamp = item['timestamp'] ??
+                                  "Waktu tidak tersedia"; // Pastikan untuk memiliki timestamp atau waktu yang benar dari data
+
                               return Card(
                                 color: Colors.grey[900],
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                                 child: ListTile(
                                   title: Text(
-                                    item['name'] ?? "Nama tidak tersedia",
-                                    style: TextStyle(color: Colors.white),
+                                    candidateName,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                  subtitle: Text(
-                                    "Status: ${item['status']}",
-                                    style: TextStyle(color: Colors.grey),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "Status: $status",
+                                        style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "Waktu: $timestamp",
+                                        style: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.grey[500],
+                                    size: 18,
                                   ),
                                   onTap: () {
                                     // Navigate to a new page with item id
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => QuickCount(),
+                                        builder: (context) => QuickCount(id: item["id"]),
                                       ),
                                     );
                                   },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:projek1/navbar/hitung.dart';
-import 'package:projek1/navbar/quick.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'formsos.dart';
 import 'editsos.dart';

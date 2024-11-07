@@ -3,61 +3,116 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:projek1/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuickCount extends StatefulWidget {
+  final int id;
+
+  const QuickCount({Key? key, required this.id}) : super(key: key);
+
   @override
   _QuickCountState createState() => _QuickCountState();
 }
 
 class _QuickCountState extends State<QuickCount> {
-  List<Map<String, dynamic>> tpsData = []; // Data TPS yang akan dikirim ke API
-  List<Widget> tpsContainers = []; // Daftar untuk menyimpan kontainer TPS baru
+  List<Map<String, dynamic>> tpsData = [];
+  List<Widget> tpsContainers = [];
+  List<Map<String, dynamic>> candidates = [];
 
-  // Fungsi untuk mengirim data ke API
-  Future<void> sendDataToApi() async {
+  Future<void> fetchCandidates(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
     final url = Uri.parse(
-        'https://tera-tni-api.onrender.com/v1/quick-counts/transactions'); // Ganti dengan URL API Anda
-
-    final requestBody = {
-      "selectionId": 2,
-      "transactions": tpsData,
-    };
+        'https://tera-tni-api.onrender.com/v1/quick-counts/selections/$id');
 
     try {
-      print("Mengirim data: ${jsonEncode(requestBody)}");
-
-      final response = await http.post(
+      final response = await http.get(
         url,
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvcmVhbmciLCJzdWIiOjYsImlhdCI6MTczMDM0MzE5NywiZXhwIjoxNzMwNDI5NTk3fQ.mSY7GMfEohf3KBHuE7-aoL97CIRWA6FkBdTMD3ibbAM",
+          'Authorization': 'Bearer $token',
         },
-        body: jsonEncode(requestBody),
       );
 
       if (response.statusCode == 200) {
-        print("Data berhasil dikirim: ${response.body}");
+        final responseData = jsonDecode(response.body);
+        setState(() {
+          candidates = List<Map<String, dynamic>>.from(
+              responseData['data']['candidates']);
+        });
       } else {
-        print("Gagal mengirim data: ${response.statusCode}");
-        print(
-            "Pesan error: ${response.body}"); // Menampilkan pesan error dari server
+        print("Gagal mengambil data kandidat: ${response.statusCode}");
+        print("Pesan error: ${response.body}");
       }
     } catch (e) {
       print("Error: $e");
     }
   }
 
-  // Fungsi untuk menambahkan data TPS ke dalam `tpsData`
-  void addTPSData(String votingSite, String location, Map<String, String> suara) {
+  Future<void> sendDataToApi(int id) async {
+  final prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('token');
+
+  if (token == null) {
+    print("Token tidak ditemukan di SharedPreferences");
+    return; 
+  }
+
+  final url = Uri.parse('https://tera-tni-api.onrender.com/v1/quick-counts/transactions/$id');
+
+  final requestBody = {
+    "selectionId": id,
+    "transactio ns": tpsData,
+  };
+
+  print("URL: $url");
+  print("Token: $token");
+  print("Request Body: $requestBody");
+
+  try {
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(requestBody),
+    );
+
+    print("Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      print("Data berhasil dikirim: ${response.body}");
+    } else {
+      print("Gagal mengirim data: ${response.statusCode}");
+      print("Pesan error: ${response.body}");
+    }
+  } catch (e) {
+    print("Error: $e");
+  }
+  }
+
+  void addTPSData(String votingSite, String location, Map<String, String> suara,
+      String invalidcount, String abstention) {
     setState(() {
       tpsData.add({
         "votingSite": votingSite,
         "location": location,
-        "metadata": suara.entries.map((e) {
-          return {"key": e.key, "value": e.value};
-        }).toList(),
+        "metadata": [
+          ...suara.entries
+              .map((e) => {"key": "candidate:${e.key}", "value": e.value}),
+          {"key": "invalidcount", "value": invalidcount},
+          {"key": "abstention", "value": abstention},
+        ],
       });
     });
+    sendDataToApi(widget.id);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCandidates(widget.id); // Menggunakan widget.id di sini
   }
 
   @override
@@ -74,7 +129,6 @@ class _QuickCountState extends State<QuickCount> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -116,7 +170,8 @@ class _QuickCountState extends State<QuickCount> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
-                      await sendDataToApi(); // Mengirim data TPS ke API
+                      await sendDataToApi(
+                          widget.id); // Menggunakan widget.id di sini
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -137,18 +192,11 @@ class _QuickCountState extends State<QuickCount> {
                   ),
                 ),
                 SizedBox(height: 20),
-
-                // Kontainer utama untuk formulir TPS
                 _buildTPSContainer(isDarkMode),
-
-                // Daftar kontainer TPS baru yang ditambahkan
                 Column(
                   children: tpsContainers,
                 ),
-
                 SizedBox(height: 20),
-
-                // Tombol Hapus dan Tambah
                 Center(
                   child: Column(
                     children: [
@@ -160,8 +208,8 @@ class _QuickCountState extends State<QuickCount> {
                         ),
                         onPressed: () {
                           setState(() {
-                            tpsData.clear(); // Hapus semua data TPS
-                            tpsContainers.clear(); // Hapus semua kontainer TPS
+                            tpsData.clear();
+                            tpsContainers.clear();
                           });
                         },
                       ),
@@ -200,16 +248,15 @@ class _QuickCountState extends State<QuickCount> {
     );
   }
 
-  // Widget untuk membangun kontainer TPS
   Widget _buildTPSContainer(bool isDarkMode) {
     final votingSiteController = TextEditingController();
     final locationController = TextEditingController();
-    final suaraControllers = [
-      TextEditingController(), // Kandidat 1
-      TextEditingController(), // Kandidat 2
-      TextEditingController(), // Suara Tidak Sah
-      TextEditingController(), // Total DPT
-    ];
+    final suaraTidakSahController = TextEditingController();
+    final totalDPTController = TextEditingController();
+    final suaraControllers = List<TextEditingController>.generate(
+      candidates.length,
+      (index) => TextEditingController(),
+    );
 
     return Container(
       width: double.infinity,
@@ -233,36 +280,21 @@ class _QuickCountState extends State<QuickCount> {
           children: [
             _buildTextField('Nama TPS', votingSiteController, isDarkMode),
             _buildTextField('Lokasi TPS', locationController, isDarkMode),
+            for (int i = 0; i < candidates.length; i++)
+              _buildTextField(
+                  'Suara Kandidat ${candidates[i]['candidateName']}',
+                  suaraControllers[i],
+                  isDarkMode),
             _buildTextField(
-                'Suara Kandidat 1', suaraControllers[0], isDarkMode),
-            _buildTextField(
-                'Suara Kandidat 2', suaraControllers[1], isDarkMode),
-            _buildTextField('Suara Tidak Sah', suaraControllers[2], isDarkMode),
-            _buildTextField('Total DPT', suaraControllers[3], isDarkMode),
-            ElevatedButton(
-              onPressed: () {
-                final suara = {
-                  "suara_1": suaraControllers[0].text,
-                  "suara_2": suaraControllers[1].text,
-                  "suara_tidak_sah": suaraControllers[2].text,
-                  "total_dpt": suaraControllers[3].text,
-                };
-
-                addTPSData(votingSiteController.text, locationController.text, suara);
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: primaryColor,
-              ),
-              child: Text('Simpan TPS'),
-            ),
+                'Suara Tidak Sah', suaraTidakSahController, isDarkMode),
+            _buildTextField('Total DPT', totalDPTController, isDarkMode),
+            SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 
-  // Widget untuk TextField yang digunakan pada Formulir
   Widget _buildTextField(
       String labelText, TextEditingController controller, bool isDarkMode) {
     return Column(
@@ -281,10 +313,7 @@ class _QuickCountState extends State<QuickCount> {
           height: 45,
           child: TextField(
             controller: controller,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-            ),
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10, horizontal: 12),
@@ -301,7 +330,6 @@ class _QuickCountState extends State<QuickCount> {
             ),
           ),
         ),
-        SizedBox(height: 12),
       ],
     );
   }
