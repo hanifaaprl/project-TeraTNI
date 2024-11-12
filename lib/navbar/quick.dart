@@ -7,8 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class QuickCount extends StatefulWidget {
   final int id;
+  final String title;
 
-  const QuickCount({Key? key, required this.id}) : super(key: key);
+  const QuickCount({Key? key, required this.id, required this.title})
+      : super(key: key);
 
   @override
   _QuickCountState createState() => _QuickCountState();
@@ -16,12 +18,27 @@ class QuickCount extends StatefulWidget {
 
 class _QuickCountState extends State<QuickCount> {
   List<Map<String, dynamic>> tpsData = [];
-  List<Widget> tpsContainers = [];
   List<Map<String, dynamic>> candidates = [];
+  List<Widget> tpsContainers = [];
+
+  Future<void> saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+    print("Token berhasil disimpan");
+  }
+
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
 
   Future<void> fetchCandidates(int id) async {
-    final prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
+    String? token = await getToken();
+    if (token == null) {
+      print("Token tidak ditemukan, silakan login kembali");
+      return;
+    }
+
     final url = Uri.parse(
         'https://tera-tni-api.onrender.com/v1/quick-counts/selections/$id');
 
@@ -49,70 +66,72 @@ class _QuickCountState extends State<QuickCount> {
   }
 
   Future<void> sendDataToApi(int id) async {
-  final prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token');
-
-  if (token == null) {
-    print("Token tidak ditemukan di SharedPreferences");
-    return; 
-  }
-
-  final url = Uri.parse('https://tera-tni-api.onrender.com/v1/quick-counts/transactions/$id');
-
-  final requestBody = {
-    "selectionId": id,
-    "transactio ns": tpsData,
-  };
-
-  print("URL: $url");
-  print("Token: $token");
-  print("Request Body: $requestBody");
-
-  try {
-    final response = await http.post(
-      url,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(requestBody),
-    );
-
-    print("Status Code: ${response.statusCode}");
-    print("Response Body: ${response.body}");
-
-    if (response.statusCode == 200) {
-      print("Data berhasil dikirim: ${response.body}");
-    } else {
-      print("Gagal mengirim data: ${response.statusCode}");
-      print("Pesan error: ${response.body}");
+    final token = await getToken();
+    if (token == null) {
+      print("Token tidak ditemukan di SharedPreferences");
+      return;
     }
-  } catch (e) {
-    print("Error: $e");
-  }
+
+    final url = Uri.parse(
+        'https://tera-tni-api.onrender.com/v1/quick-counts/transactions');
+    final requestBody = {
+      "selectionId": id,
+      "transactions": tpsData,
+    };
+
+    print("URL: $url");
+    print("Token: $token");
+    print("Request Body: $requestBody");
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        print("Data berhasil dikirim: ${response.body}");
+      } else {
+        print("Gagal mengirim data: ${response.statusCode}");
+        print("Pesan error: ${response.body}");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 
   void addTPSData(String votingSite, String location, Map<String, String> suara,
-      String invalidcount, String abstention) {
+    String invalidcount, String abstention) {
     setState(() {
       tpsData.add({
         "votingSite": votingSite,
         "location": location,
         "metadata": [
-          ...suara.entries
-              .map((e) => {"key": "candidate:${e.key}", "value": e.value}),
+          ...suara.entries.map((e) {
+            return {"key": "candidate:${e.key}", "value": e.value};
+          }).toList(),
           {"key": "invalidcount", "value": invalidcount},
           {"key": "abstention", "value": abstention},
         ],
       });
+
+      print("tpsData: $tpsData");
     });
+
     sendDataToApi(widget.id);
   }
 
   @override
   void initState() {
     super.initState();
-    fetchCandidates(widget.id); // Menggunakan widget.id di sini
+    fetchCandidates(widget.id); 
   }
 
   @override
@@ -147,7 +166,7 @@ class _QuickCountState extends State<QuickCount> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Pengumpulan Hitung Cepat',
+                          "Pengumpulan Hitung Cepat",
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -155,7 +174,7 @@ class _QuickCountState extends State<QuickCount> {
                           ),
                         ),
                         Text(
-                          'Gubernur Jawa Barat',
+                          widget.title,
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -165,31 +184,6 @@ class _QuickCountState extends State<QuickCount> {
                       ],
                     ),
                   ],
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await sendDataToApi(
-                          widget.id); // Menggunakan widget.id di sini
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: primaryColor,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: Text(
-                      'Send',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ),
                 SizedBox(height: 20),
                 _buildTPSContainer(isDarkMode),
@@ -281,14 +275,50 @@ class _QuickCountState extends State<QuickCount> {
             _buildTextField('Nama TPS', votingSiteController, isDarkMode),
             _buildTextField('Lokasi TPS', locationController, isDarkMode),
             for (int i = 0; i < candidates.length; i++)
-              _buildTextField(
-                  'Suara Kandidat ${candidates[i]['candidateName']}',
+              _buildTextField('Suara Kandidat ${candidates[i]['candidateName']}',
                   suaraControllers[i],
                   isDarkMode),
-            _buildTextField(
-                'Suara Tidak Sah', suaraTidakSahController, isDarkMode),
+            _buildTextField('Suara Tidak Sah', suaraTidakSahController, isDarkMode),
             _buildTextField('Total DPT', totalDPTController, isDarkMode),
             SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  final Map<String, String> suara = {
+                    for (int i = 0; i < candidates.length; i++)
+                      candidates[i]['id'].toString():
+                          suaraControllers[i].text.isEmpty
+                              ? '0'
+                              : suaraControllers[i].text
+                  };
+
+                  final String invalidcount = suaraTidakSahController.text.isEmpty ? '0' : suaraTidakSahController.text;
+                  final String abstention = totalDPTController.text.isEmpty ? '0' : totalDPTController.text;
+
+                  addTPSData(
+                    votingSiteController.text,
+                    locationController.text,
+                    suara,
+                    invalidcount,
+                    abstention,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: Text(
+                  'Tambah TPS',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -296,41 +326,22 @@ class _QuickCountState extends State<QuickCount> {
   }
 
   Widget _buildTextField(
-      String labelText, TextEditingController controller, bool isDarkMode) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          labelText,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white70,
+      String label, TextEditingController controller, bool isDarkMode) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.grey[500]),
+          filled: true,
+          fillColor: isDarkMode ? Colors.grey[800] : Colors.grey[200],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
           ),
         ),
-        SizedBox(height: 8),
-        Container(
-          height: 45,
-          child: TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: primaryColor, width: 1.0),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.white54, width: 1.0),
-              ),
-              filled: true,
-              fillColor: secondaryColor,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

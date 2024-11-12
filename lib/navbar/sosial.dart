@@ -96,7 +96,7 @@ class _SosialEkonomiState extends State<SosialEkonomi> {
                           children: [
                             // Dropdown di kiri
                             Container(
-                              width: 130,
+                              width: 145,
                               height: 30,
                               padding: EdgeInsets.symmetric(horizontal: 12),
                               decoration: BoxDecoration(

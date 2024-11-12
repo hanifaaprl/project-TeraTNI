@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'package:projek1/colors.dart';
 import 'package:projek1/navbar/quick.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class Pilkada extends StatefulWidget {
-  final int id; // Tambahkan parameter id
+  final int id;
 
   const Pilkada({Key? key, required this.id}) : super(key: key);
 
@@ -16,32 +17,23 @@ class Pilkada extends StatefulWidget {
 
 class _PilkadaState extends State<Pilkada> {
   List<dynamic> quickCountData = [];
-
-  DateTime endDate =
-      DateTime(2024, 12, 26); // Adjust according to your end date
+  DateTime endDate = DateTime(2024, 12, 26); // Sesuaikan tanggal akhir
   bool isLoading = true;
   bool isLoadingHeader = true;
 
   @override
   void initState() {
     super.initState();
-    fetchQuickCountData(widget.id); // Call API with the id received
+    fetchQuickCountData(widget.id);
   }
 
   Future<void> fetchQuickCountData(int id) async {
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
+
     final response = await http.get(
       Uri.parse(
           'https://tera-tni-api.onrender.com/v1/quick-counts/selections/selection-descendants/by-period/$id'),
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    final response1 = await http.get(
-      Uri.parse(
-          'https://tera-tni-api.onrender.com/v1/quick-counts/periods/$id'),
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -57,16 +49,17 @@ class _PilkadaState extends State<Pilkada> {
         isLoading = false;
       });
     }
-    if (response1.statusCode == 200) {
-      setState(() {
-        final Map<String, dynamic> data = json.decode(response1.body);
-        print(data);
-      });
-    } else {
-      setState(() {
-        isLoadingHeader = false;
-      });
-    }
+  }
+
+  Future<void> saveLastClickedTime() async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentTime = DateTime.now().toIso8601String();
+    await prefs.setString('lastClickedTime', currentTime);
+  }
+
+  Future<String?> getLastClickedTime() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('lastClickedTime');
   }
 
   String getDaysRemaining() {
@@ -136,7 +129,6 @@ class _PilkadaState extends State<Pilkada> {
                 ),
                 Expanded(
                   child: Container(
-                    //color: Colors.black,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,63 +151,82 @@ class _PilkadaState extends State<Pilkada> {
                               final item = quickCountData[index];
                               final candidateName =
                                   item['name'] ?? "Nama tidak tersedia";
-                              final status =
-                                  item['status'] ?? "Status tidak tersedia";
-                              final timestamp = item['timestamp'] ??
-                                  "Waktu tidak tersedia"; // Pastikan untuk memiliki timestamp atau waktu yang benar dari data
+                              final candidateCount = quickCountData.length;
+                              final timestamp = item['timestamp'] ?? "Waktu tidak tersedia";
 
-                              return Card(
-                                color: Colors.grey[900],
-                                margin: EdgeInsets.symmetric(vertical: 5),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: ListTile(
-                                  title: Text(
-                                    candidateName,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                              return FutureBuilder<String?>(
+                                future: getLastClickedTime(),
+                                builder: (context, snapshot) {
+                                  String lastClickedTime = snapshot.data ?? "Belum pernah di-klik";
+                                  if (snapshot.connectionState == ConnectionState.done &&
+                                      snapshot.hasData) {
+                                    lastClickedTime = DateFormat("yyyy-MM-dd HH:mm")
+                                        .format(DateTime.parse(snapshot.data!));
+                                  }
+
+                                  return Card(
+                                    color: Colors.grey[900],
+                                    margin: EdgeInsets.symmetric(
+                                      vertical: 5,
+                                      horizontal: 10,
                                     ),
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(height: 4),
-                                      Text(
-                                        "Status: $status",
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: ListTile(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 10),
+                                      title: Text(
+                                        candidateName,
                                         style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 14,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
                                         ),
                                       ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        "Waktu: $timestamp",
-                                        style: TextStyle(
-                                          color: Colors.grey[400],
-                                          fontSize: 14,
-                                        ),
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "$candidateCount Kandidat",
+                                            style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "Terakhir diperbarui: $lastClickedTime",
+                                            style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  trailing: Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.grey[500],
-                                    size: 18,
-                                  ),
-                                  onTap: () {
-                                    // Navigate to a new page with item id
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => QuickCount(id: item["id"]),
+                                      trailing: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.grey[500],
+                                        size: 18,
                                       ),
-                                    );
-                                  },
-                                ),
+                                      onTap: () async {
+                                        await saveLastClickedTime();
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => QuickCount(
+                                              id: item["id"],
+                                              title: item["name"] ??
+                                                  "Pengumpulan Hitung Cepat",
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
                               );
                             },
                           ),
