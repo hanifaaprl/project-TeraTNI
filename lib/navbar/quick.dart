@@ -199,23 +199,43 @@ class _QuickCountState extends State<QuickCount> {
                   ],
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    sendDataToApi(widget.id);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: primaryColor,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: Text(
-                    'Send',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                Center(
+                  child: Container(
+                    width: 200, // Mengatur lebar tombol agar memenuhi ruang
+                    padding: EdgeInsets.symmetric(
+                        horizontal:
+                            40), // Mengatur padding horizontal untuk panjang tombol
+                    child: ElevatedButton(
+                      onPressed: () {
+                        sendDataToApi(widget.id);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: primaryColor,
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment
+                            .center, // Menjaga ikon dan teks di tengah
+                        children: [
+                          Icon(
+                            Icons.send, // Ikon send
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 10), // Jarak antara icon dan text
+                          Text(
+                            'Send',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
