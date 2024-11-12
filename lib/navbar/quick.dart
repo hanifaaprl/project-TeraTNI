@@ -109,7 +109,7 @@ class _QuickCountState extends State<QuickCount> {
   }
 
   void addTPSData(String votingSite, String location, Map<String, String> suara,
-      String invalidcount, String abstention) {
+      String invalidcount, String abstention, String totalelectoral) {
     setState(() {
       tpsData.add({
         "votingSite": votingSite,
@@ -120,6 +120,7 @@ class _QuickCountState extends State<QuickCount> {
           }).toList(),
           {"key": "invalid-count", "value": invalidcount}, 
           {"key": "abstention", "value": abstention}, 
+          {"key": "total-electoral-register", "value": totalelectoral}
         ],
       });
 
@@ -248,6 +249,7 @@ class _QuickCountState extends State<QuickCount> {
     final locationController = TextEditingController();
     final suaraTidakSahController = TextEditingController();
     final totalDPTController = TextEditingController();
+    final totalelectoralController = TextEditingController();
     final suaraControllers = List<TextEditingController>.generate(
       candidates.length,
       (index) => TextEditingController(),
@@ -280,9 +282,9 @@ class _QuickCountState extends State<QuickCount> {
                   'Suara Kandidat ${candidates[i]['candidateName']}',
                   suaraControllers[i],
                   isDarkMode),
-            _buildTextField(
-                'Suara Tidak Sah', suaraTidakSahController, isDarkMode),
+            _buildTextField('Suara Tidak Sah', suaraTidakSahController, isDarkMode),
             _buildTextField('Total DPT', totalDPTController, isDarkMode),
+            _buildTextField('Total Electoral', totalelectoralController, isDarkMode),
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
@@ -302,6 +304,9 @@ class _QuickCountState extends State<QuickCount> {
                   final String abstention = totalDPTController.text.isEmpty
                       ? '0'
                       : totalDPTController.text;
+                  final String totalelectoral = totalelectoralController.text.isEmpty
+                      ? '0'
+                      : totalDPTController.text;
 
                   addTPSData(
                     votingSiteController.text,
@@ -309,6 +314,7 @@ class _QuickCountState extends State<QuickCount> {
                     suara,
                     invalidcount,
                     abstention,
+                    totalelectoral,
                   );
                 },
                 style: ElevatedButton.styleFrom(
