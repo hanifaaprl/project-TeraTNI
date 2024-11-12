@@ -81,7 +81,8 @@ class _QuickCountState extends State<QuickCount> {
 
     print("URL: $url");
     print("Token: $token");
-    print("Request Body: $requestBody");
+    print(
+        "Request Body (JSON): ${jsonEncode(requestBody)}"); // menampilkan JSON yang akan dikirim
 
     try {
       final response = await http.post(
@@ -96,7 +97,7 @@ class _QuickCountState extends State<QuickCount> {
       print("Status Code: ${response.statusCode}");
       print("Response Body: ${response.body}");
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print("Data berhasil dikirim: ${response.body}");
       } else {
         print("Gagal mengirim data: ${response.statusCode}");
@@ -108,7 +109,7 @@ class _QuickCountState extends State<QuickCount> {
   }
 
   void addTPSData(String votingSite, String location, Map<String, String> suara,
-    String invalidcount, String abstention) {
+      String invalidcount, String abstention) {
     setState(() {
       tpsData.add({
         "votingSite": votingSite,
@@ -117,12 +118,12 @@ class _QuickCountState extends State<QuickCount> {
           ...suara.entries.map((e) {
             return {"key": "candidate:${e.key}", "value": e.value};
           }).toList(),
-          {"key": "invalidcount", "value": invalidcount},
-          {"key": "abstention", "value": abstention},
+          {"key": "invalid-count", "value": invalidcount}, 
+          {"key": "abstention", "value": abstention}, 
         ],
       });
 
-      print("tpsData: $tpsData");
+      print("tpsData yang akan dikirim: ${jsonEncode(tpsData)}");
     });
 
     sendDataToApi(widget.id);
@@ -131,7 +132,7 @@ class _QuickCountState extends State<QuickCount> {
   @override
   void initState() {
     super.initState();
-    fetchCandidates(widget.id); 
+    fetchCandidates(widget.id);
   }
 
   @override
@@ -275,10 +276,12 @@ class _QuickCountState extends State<QuickCount> {
             _buildTextField('Nama TPS', votingSiteController, isDarkMode),
             _buildTextField('Lokasi TPS', locationController, isDarkMode),
             for (int i = 0; i < candidates.length; i++)
-              _buildTextField('Suara Kandidat ${candidates[i]['candidateName']}',
+              _buildTextField(
+                  'Suara Kandidat ${candidates[i]['candidateName']}',
                   suaraControllers[i],
                   isDarkMode),
-            _buildTextField('Suara Tidak Sah', suaraTidakSahController, isDarkMode),
+            _buildTextField(
+                'Suara Tidak Sah', suaraTidakSahController, isDarkMode),
             _buildTextField('Total DPT', totalDPTController, isDarkMode),
             SizedBox(height: 20),
             Center(
@@ -292,8 +295,13 @@ class _QuickCountState extends State<QuickCount> {
                               : suaraControllers[i].text
                   };
 
-                  final String invalidcount = suaraTidakSahController.text.isEmpty ? '0' : suaraTidakSahController.text;
-                  final String abstention = totalDPTController.text.isEmpty ? '0' : totalDPTController.text;
+                  final String invalidcount =
+                      suaraTidakSahController.text.isEmpty
+                          ? '0'
+                          : suaraTidakSahController.text;
+                  final String abstention = totalDPTController.text.isEmpty
+                      ? '0'
+                      : totalDPTController.text;
 
                   addTPSData(
                     votingSiteController.text,
