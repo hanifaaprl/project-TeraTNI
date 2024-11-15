@@ -81,8 +81,7 @@ class _QuickCountState extends State<QuickCount> {
 
     print("URL: $url");
     print("Token: $token");
-    print(
-        "Request Body (JSON): ${jsonEncode(requestBody)}"); // menampilkan JSON yang akan dikirim
+    print("Request Body (JSON): ${jsonEncode(requestBody)}");
 
     try {
       final response = await http.post(
@@ -93,9 +92,6 @@ class _QuickCountState extends State<QuickCount> {
         },
         body: jsonEncode(requestBody),
       );
-
-      print("Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("Data berhasil dikirim: ${response.body}");
@@ -108,15 +104,15 @@ class _QuickCountState extends State<QuickCount> {
     }
   }
 
-  void addTPSData(String votingSite, String location, Map<String, String> suara,
-      String invalidcount, String totalDPT, String totalelectoral) {
+  addTPSData(String votingSite, String location, Map<String, String> suara,
+      String invalidcount, String totalDPT) {
     int validCount = suara.values
         .map((value) => int.tryParse(value) ?? 0)
         .reduce((a, b) => a + b);
 
     int totalDPTValue = int.tryParse(totalDPT) ?? 0;
     int invalidCountValue = int.tryParse(invalidcount) ?? 0;
-    int abstentionCount = totalDPTValue - (validCount + invalidCountValue);
+    int golput = totalDPTValue - (validCount + invalidCountValue);
 
     setState(() {
       tpsData.add({
@@ -127,24 +123,22 @@ class _QuickCountState extends State<QuickCount> {
             return {"key": "candidate:${e.key}", "value": e.value};
           }).toList(),
           {"key": "invalid-count", "value": invalidcount},
-          {"key": "abstention", "value": totalDPT},
-          {"key": "total-electoral-register", "value": totalelectoral},
+          {"key": "abstention", "value": golput.toString()},
+          {"key": "total-electoral-register", "value": totalDPT},
           {"key": "valid-count", "value": validCount.toString()},
-          {"key": "abstention-count", "value": abstentionCount.toString()},
         ],
       });
+      print("Data TPS yang ditambahkan: ${jsonEncode(tpsData)}");
+      print("Golput (abstention): $golput");
     });
+
+    sendDataToApi(widget.id); // Pastikan data dikirim setelah ini
   }
 
   @override
   void initState() {
     super.initState();
-    fetchCandidates(widget.id).then((_) {
-      // Menambahkan satu container TPS setelah candidates berhasil diambil
-      setState(() {
-        tpsContainers.add(_buildTPSContainer());
-      });
-    });
+    fetchCandidates(widget.id);
   }
 
   @override
@@ -162,12 +156,10 @@ class _QuickCountState extends State<QuickCount> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
                       icon: Icon(
                         Icons.arrow_back_ios_new_rounded,
-                        size: 24,
                         color: Colors.white,
                       ),
                       onPressed: () {
@@ -199,75 +191,49 @@ class _QuickCountState extends State<QuickCount> {
                   ],
                 ),
                 SizedBox(height: 20),
-                Center(
-                  child: Container(
-                    width: 200, // Mengatur lebar tombol agar memenuhi ruang
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                            40), // Mengatur padding horizontal untuk panjang tombol
-                    child: ElevatedButton(
-                      onPressed: () {
-                        sendDataToApi(widget.id);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: primaryColor,
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment
-                            .center, // Menjaga ikon dan teks di tengah
-                        children: [
-                          Icon(
-                            Icons.send, // Ikon send
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 10), // Jarak antara icon dan text
-                          Text(
-                            'Send',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
+                _buildTPSContainer(isDarkMode),
                 Column(
                   children: tpsContainers,
                 ),
                 SizedBox(height: 20),
-                // Button untuk menambah TPS baru
                 Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        tpsContainers.add(_buildTPSContainer());
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: primaryColor,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 110, vertical: 5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red, size: 30),
+                        onPressed: () {
+                          setState(() {
+                            tpsData.clear();
+                            tpsContainers.clear();
+                          });
+                        },
                       ),
-                    ),
-                    child: Text(
-                      'Tambah TPS',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            tpsContainers.add(_buildTPSContainer(isDarkMode));
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: primaryColor,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.add, size: 20),
+                            SizedBox(width: 8),
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ],
@@ -278,22 +244,17 @@ class _QuickCountState extends State<QuickCount> {
     );
   }
 
-  Widget _buildTPSContainer() {
+  Widget _buildTPSContainer(bool isDarkMode) {
     final votingSiteController = TextEditingController();
     final locationController = TextEditingController();
     final suaraTidakSahController = TextEditingController();
     final totalDPTController = TextEditingController();
-    final totalelectoralController = TextEditingController();
     final suaraControllers = List<TextEditingController>.generate(
       candidates.length,
       (index) => TextEditingController(),
     );
 
-    // Buat ID unik untuk setiap TPS Container
-    final String tpsId = UniqueKey().toString();
-
     return Container(
-      key: Key(tpsId), // Gunakan ID unik untuk container
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
@@ -313,29 +274,59 @@ class _QuickCountState extends State<QuickCount> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildTextField('Nama TPS', votingSiteController),
-            _buildTextField('Lokasi TPS', locationController),
+            _buildTextField('Nama TPS', votingSiteController, isDarkMode),
+            _buildTextField('Lokasi TPS', locationController, isDarkMode),
             for (int i = 0; i < candidates.length; i++)
               _buildTextField(
-                'Suara Kandidat ${candidates[i]['candidateName']}',
-                suaraControllers[i],
-              ),
-            _buildTextField('Suara Tidak Sah', suaraTidakSahController),
-            _buildTextField('Total DPT', totalDPTController),
-            _buildTextField('Total Electoral', totalelectoralController),
+                  'Suara Kandidat ${candidates[i]['candidateName']}',
+                  suaraControllers[i],
+                  isDarkMode),
+            _buildTextField(
+                'Suara Tidak Sah', suaraTidakSahController, isDarkMode),
+            _buildTextField('Total DPT', totalDPTController, isDarkMode),
             SizedBox(height: 20),
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(Icons.delete, color: Colors.red),
+            Center(
+              child: ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    // Hapus TPSContainer berdasarkan Key yang telah di-set
-                    tpsContainers.removeWhere(
-                      (container) => container.key == Key(tpsId),
-                    );
-                  });
+                  final Map<String, String> suara = {
+                    for (int i = 0; i < candidates.length; i++)
+                      candidates[i]['id'].toString():
+                          suaraControllers[i].text.isEmpty
+                              ? '0'
+                              : suaraControllers[i].text
+                  };
+
+                  final String invalidcount =
+                      suaraTidakSahController.text.isEmpty
+                          ? '0'
+                          : suaraTidakSahController.text;
+                  final String totalDPT = totalDPTController.text.isEmpty
+                      ? '0'
+                      : totalDPTController.text;
+
+                  addTPSData(
+                    votingSiteController.text,
+                    locationController.text,
+                    suara,
+                    invalidcount,
+                    totalDPT,
+                  );
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: Text(
+                  'Kirim Data TPS',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],
@@ -344,33 +335,23 @@ class _QuickCountState extends State<QuickCount> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white,
+  Widget _buildTextField(
+      String label, TextEditingController controller, bool isDarkMode) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.white),
+          filled: true,
+          fillColor: backgroundColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
           ),
         ),
-        SizedBox(height: 5),
-        TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: label,
-            hintStyle: TextStyle(color: Colors.grey),
-            filled: true,
-            fillColor: secondaryColor,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          ),
-        ),
-        SizedBox(height: 10),
-      ],
+      ),
     );
   }
 }

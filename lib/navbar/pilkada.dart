@@ -110,7 +110,7 @@ class _PilkadaState extends State<Pilkada> {
                         ),
                       ),
                       Text(
-                        "tersisa",
+                        "tersisa pengumpulan hitung cepat",
                         style: TextStyle(
                           color: Colors.grey[400],
                           fontSize: 16,
@@ -197,12 +197,23 @@ class _PilkadaState extends State<Pilkada> {
                                             ),
                                           ),
                                           SizedBox(height: 4),
-                                          Text(
-                                            "Terakhir diperbarui: $lastClickedTime",
-                                            style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 14,
-                                            ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Terakhir diperbarui: ",
+                                                style: TextStyle(
+                                                  color: Colors.grey[400],
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              Text(
+                                                "$lastClickedTime",
+                                                style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
