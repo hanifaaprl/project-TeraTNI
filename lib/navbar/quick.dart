@@ -113,6 +113,8 @@ class _QuickCountState extends State<QuickCount> {
     int totalDPTValue = int.tryParse(totalDPT) ?? 0;
     int invalidCountValue = int.tryParse(invalidcount) ?? 0;
     int golput = totalDPTValue - (validCount + invalidCountValue);
+    print("Golput (abstention) yang dihitung: $golput"); // Tambahkan debug
+
 
     setState(() {
       tpsData.add({
@@ -123,13 +125,13 @@ class _QuickCountState extends State<QuickCount> {
             return {"key": "candidate:${e.key}", "value": e.value};
           }).toList(),
           {"key": "invalid-count", "value": invalidcount},
-          {"key": "abstention", "value": golput.toString()},
+          {"key": "abstention-count", "value": golput.toString()},
           {"key": "total-electoral-register", "value": totalDPT},
           {"key": "valid-count", "value": validCount.toString()},
         ],
       });
       print("Data TPS yang ditambahkan: ${jsonEncode(tpsData)}");
-      print("Golput (abstention): $golput");
+      //print("Golput (abstention): $golput");
     });
 
     sendDataToApi(widget.id); // Pastikan data dikirim setelah ini
