@@ -173,7 +173,7 @@ class _QuickCountState extends State<QuickCount> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Pengumpulan Hitung Cepat",
+                          "Pengumpulan Hitung Cepat Pilkada",
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
