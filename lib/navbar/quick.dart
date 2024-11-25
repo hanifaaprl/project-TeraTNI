@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:projek1/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -145,11 +146,7 @@ class _QuickCountState extends State<QuickCount> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 3), () {
-          Navigator.of(context)
-              .pop(); // Menutup pop-up otomatis setelah 3 detik
-        });
-
+        // Dialog akan langsung muncul tanpa penundaan
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -192,6 +189,11 @@ class _QuickCountState extends State<QuickCount> {
         );
       },
     );
+
+    // Tetap menutup pop-up secara otomatis setelah 3 detik
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -339,10 +341,11 @@ class _QuickCountState extends State<QuickCount> {
               _buildTextField(
                   'Suara Kandidat ${candidates[i]['candidateName']}',
                   suaraControllers[i],
-                  isDarkMode),
+                  isDarkMode,
+                  onlyNumbers: true ),
             _buildTextField(
-                'Suara Tidak Sah', suaraTidakSahController, isDarkMode),
-            _buildTextField('Total DPT', totalDPTController, isDarkMode),
+                'Suara Tidak Sah', suaraTidakSahController, isDarkMode, onlyNumbers: true),
+            _buildTextField('Total DPT', totalDPTController, isDarkMode, onlyNumbers: true),
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
@@ -395,20 +398,25 @@ class _QuickCountState extends State<QuickCount> {
   }
 
   Widget _buildTextField(
-      String label, TextEditingController controller, bool isDarkMode) {
+      String label, TextEditingController controller, bool isDarkMode,
+      {bool onlyNumbers = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: controller,
+        keyboardType: onlyNumbers ? TextInputType.number : TextInputType.text,
+        inputFormatters:
+            onlyNumbers ? [FilteringTextInputFormatter.digitsOnly] : [],
         style: TextStyle(
-            color: Colors.white), // Warna teks input diubah menjadi putih
+          color: Colors.white, // Warna teks input diubah menjadi putih
+        ),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(color: Colors.white), // Warna label teks
           filled: true,
           fillColor: backgroundColor,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10),  
             borderSide: BorderSide.none,
           ),
         ),
