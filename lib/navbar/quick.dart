@@ -69,6 +69,7 @@ class _QuickCountState extends State<QuickCount> {
     final token = await getToken();
     if (token == null) {
       print("Token tidak ditemukan di SharedPreferences");
+      _showDialog("Gagal", "Token tidak ditemukan. Silakan login kembali.");
       return;
     }
 
@@ -95,12 +96,16 @@ class _QuickCountState extends State<QuickCount> {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("Data berhasil dikirim: ${response.body}");
+        _showDialog("Berhasil", "Data berhasil dikirim.");
       } else {
         print("Gagal mengirim data: ${response.statusCode}");
         print("Pesan error: ${response.body}");
+        _showDialog(
+            "Gagal", "Data gagal dikirim. Kode error: ${response.statusCode}");
       }
     } catch (e) {
       print("Error: $e");
+      _showDialog("Error", "Terjadi kesalahan: $e");
     }
   }
 
@@ -114,7 +119,6 @@ class _QuickCountState extends State<QuickCount> {
     int invalidCountValue = int.tryParse(invalidcount) ?? 0;
     int golput = totalDPTValue - (validCount + invalidCountValue);
     print("Golput (abstention) yang dihitung: $golput"); // Tambahkan debug
-
 
     setState(() {
       tpsData.add({
@@ -135,6 +139,59 @@ class _QuickCountState extends State<QuickCount> {
     });
 
     sendDataToApi(widget.id); // Pastikan data dikirim setelah ini
+  }
+
+  void _showDialog(String title, String message, {bool isSuccess = true}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.of(context)
+              .pop(); // Menutup pop-up otomatis setelah 3 detik
+        });
+
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.black87, // Warna latar belakang gelap
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isSuccess ? Icons.check_circle_outline : Icons.error_outline,
+                  color: isSuccess ? Colors.greenAccent : Colors.redAccent,
+                  size: 50,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Warna teks terang
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70, // Warna teks terang
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -173,7 +230,7 @@ class _QuickCountState extends State<QuickCount> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Pengumpulan Hitung Cepat Pilkada",
+                          "Pengumpulan Hitung Cepat",
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -343,9 +400,11 @@ class _QuickCountState extends State<QuickCount> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: controller,
+        style: TextStyle(
+            color: Colors.white), // Warna teks input diubah menjadi putih
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.white),
+          labelStyle: TextStyle(color: Colors.white), // Warna label teks
           filled: true,
           fillColor: backgroundColor,
           border: OutlineInputBorder(
